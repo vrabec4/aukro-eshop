@@ -1,5 +1,4 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { SHIPPING_CZK, TAX_RATE } from '../constants/cart-fees';
 import { CartItem } from '../models/cart-item.model';
 import { Product } from '../models/product.model';
 import { CatalogService } from './catalog.service';
@@ -37,15 +36,7 @@ export class CartStoreService {
     this.lines().reduce((sum, line) => sum + line.lineTotalCzk, 0),
   );
 
-  readonly shippingCzk = computed(() =>
-    this.count() === 0 ? 0 : SHIPPING_CZK,
-  );
-
-  readonly taxCzk = computed(() => this.subtotalCzk() * TAX_RATE);
-
-  readonly totalCzk = computed(
-    () => this.subtotalCzk() + this.shippingCzk() + this.taxCzk(),
-  );
+  readonly totalCzk = computed(() => this.subtotalCzk());
 
   add(productId: string, quantity = 1): void {
     if (quantity <= 0) {

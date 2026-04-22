@@ -15,14 +15,6 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           <dt class="text-gray-600">{{ 'subtotal' | translate }}</dt>
           <dd>{{ subtotalCzk() | price }}</dd>
         </div>
-        <div class="flex justify-between text-sm">
-          <dt class="text-gray-600">{{ 'shipping' | translate }}</dt>
-          <dd>{{ shippingCzk() | price }}</dd>
-        </div>
-        <div class="flex justify-between text-sm">
-          <dt class="text-gray-600">{{ 'tax' | translate }}</dt>
-          <dd>{{ taxCzk() | price }}</dd>
-        </div>
         <div class="flex justify-between border-t border-gray-200 pt-2 font-semibold">
           <dt>{{ 'total' | translate }}</dt>
           <dd>{{ totalCzk() | price }}</dd>
@@ -33,7 +25,5 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 })
 export class CartSummaryComponent {
   readonly subtotalCzk = input.required<number>();
-  readonly shippingCzk = input.required<number>();
-  readonly taxCzk = input.required<number>();
   readonly totalCzk = input.required<number>();
 }

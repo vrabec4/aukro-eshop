@@ -12,18 +12,18 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article
-      class="flex items-stretch gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+      class="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:flex-row sm:items-stretch"
     >
       <img
         [src]="product().imageUrl || fallbackImage"
         [alt]="localizedName()"
-        class="h-24 w-24 flex-none rounded object-contain"
+        class="h-24 w-full flex-none rounded object-contain sm:w-24"
         loading="lazy"
         (error)="onImageError($event)"
       />
 
       <div class="flex min-w-0 flex-1 flex-col gap-2">
-        <div class="flex items-start justify-between gap-2">
+        <div class="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
           <h3 class="min-w-0 truncate font-medium text-gray-900">{{ localizedName() }}</h3>
           <div class="flex-none font-semibold text-gray-900">
             {{ product().basePriceCzk | price }}
@@ -34,16 +34,16 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           {{ pricePerUnitCzk() | price }} / {{ product().unit }}
         </div>
 
-        <div class="mt-auto flex items-center justify-between gap-2">
+        <div class="mt-auto flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <span
-            class="rounded border border-gray-200 px-2 py-1 text-sm text-gray-700"
+            class="w-fit rounded border border-gray-200 px-2 py-1 text-sm text-gray-700"
             [attr.aria-label]="'package size'"
           >
             {{ product().quantity }} {{ product().unit }}
           </span>
           <button
             mat-flat-button
-            class="!bg-green-700 !text-white"
+            class="!w-full !bg-green-700 !text-white sm:!w-auto"
             (click)="addToCart.emit()"
           >
             {{ 'addToBasket' | translate }}

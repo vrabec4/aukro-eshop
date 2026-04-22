@@ -14,7 +14,7 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
       <div class="mb-6 flex items-baseline gap-3 border-b border-gray-200 pb-4">
         <h1 class="font-serif text-3xl">{{ 'basketTitle' | translate }}</h1>
         <span class="text-sm text-gray-500">
-          {{ lines().length }} {{ 'itemsSuffix' | translate }}
+          {{ count() }} {{ 'itemsSuffix' | translate }}
         </span>
       </div>
 
@@ -32,8 +32,6 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
           </div>
           <app-cart-summary
             [subtotalCzk]="subtotalCzk()"
-            [shippingCzk]="shippingCzk()"
-            [taxCzk]="taxCzk()"
             [totalCzk]="totalCzk()"
           />
         </div>
@@ -44,10 +42,9 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
 export class CartPageComponent {
   private readonly cart = inject(CartStoreService);
 
+  protected readonly count = this.cart.count;
   protected readonly lines = this.cart.lines;
   protected readonly subtotalCzk = this.cart.subtotalCzk;
-  protected readonly shippingCzk = this.cart.shippingCzk;
-  protected readonly taxCzk = this.cart.taxCzk;
   protected readonly totalCzk = this.cart.totalCzk;
 
   protected onRemove(productId: string): void {
