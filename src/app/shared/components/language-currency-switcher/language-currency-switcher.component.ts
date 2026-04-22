@@ -4,20 +4,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { Currency, CURRENCIES } from '../../../core/models/currency.model';
 import { Language, LANGUAGES } from '../../../core/models/language.model';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-language-currency-switcher',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatSelectModule],
+  imports: [FormsModule, MatFormFieldModule, MatSelectModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-wrap items-center gap-2">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-32">
-        <mat-label>Language</mat-label>
+        <mat-label>{{ 'language' | translate }}</mat-label>
         <mat-select
           [ngModel]="language()"
           (ngModelChange)="languageChange.emit($event)"
-          aria-label="Language selector"
+          [attr.aria-label]="'language' | translate"
         >
           @for (lang of languages; track lang) {
             <mat-option [value]="lang">{{ lang.toUpperCase() }}</mat-option>
@@ -26,11 +27,11 @@ import { Language, LANGUAGES } from '../../../core/models/language.model';
       </mat-form-field>
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-32">
-        <mat-label>Currency</mat-label>
+        <mat-label>{{ 'currency' | translate }}</mat-label>
         <mat-select
           [ngModel]="currency()"
           (ngModelChange)="currencyChange.emit($event)"
-          aria-label="Currency selector"
+          [attr.aria-label]="'currency' | translate"
         >
           @for (cur of currencies; track cur) {
             <mat-option [value]="cur">{{ cur }}</mat-option>

@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { Currency } from '../../../core/models/currency.model';
 import { Language } from '../../../core/models/language.model';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { CartBadgeComponent } from '../cart-badge/cart-badge.component';
 import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher/language-currency-switcher.component';
 
@@ -15,6 +16,7 @@ import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher
     MatButtonModule,
     CartBadgeComponent,
     LanguageCurrencySwitcherComponent,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -27,7 +29,7 @@ import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher
             routerLinkActive="!bg-green-700 !text-white"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            Shop list
+            {{ 'shopList' | translate }}
           </a>
           <app-cart-badge [count]="cartCount()" />
         </nav>

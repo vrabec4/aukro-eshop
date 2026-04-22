@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-shop-page',
   standalone: true,
+  imports: [TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="mx-auto max-w-5xl px-4 py-6">
-      <h1 class="mb-4 text-3xl font-serif">Shoplist</h1>
-      <p class="text-gray-500">Product grid will render here in Phase 6.</p>
+      <h1 class="mb-4 font-serif text-3xl">{{ 'shopTitle' | translate }}</h1>
+      <p class="text-gray-500">{{ 'emptyShop' | translate }}</p>
     </section>
   `,
 })
