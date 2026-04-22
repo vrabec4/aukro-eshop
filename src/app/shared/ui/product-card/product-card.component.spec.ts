@@ -5,13 +5,13 @@ import { ProductCardComponent } from './product-card.component';
 
 describe('ProductCardComponent', () => {
   const product: Product = {
-    id: '90000001',
+    id: 'test-1',
     name: {
       cs: 'Heirloom rajce',
       sk: 'Heirloom paradajka',
       en: 'Heirloom tomato',
     },
-    imageUrl: '/images/products/tomato.jpg',
+    imageUrl: 'https://example.com/tomato.jpg',
     unit: 'kg',
     quantity: 0.5,
     basePriceCzk: 89,
