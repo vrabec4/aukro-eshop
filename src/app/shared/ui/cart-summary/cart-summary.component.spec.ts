@@ -10,17 +10,19 @@ describe('CartSummaryComponent', () => {
     }).compileComponents();
   });
 
-  it('renders subtotal and total without extra fee rows', () => {
+  it('renders subtotal, shipping, tax, and total', () => {
     const fixture = TestBed.createComponent(CartSummaryComponent);
 
     fixture.componentRef.setInput('subtotalCzk', 124);
-    fixture.componentRef.setInput('totalCzk', 124);
+    fixture.componentRef.setInput('shippingCzk', 100);
+    fixture.componentRef.setInput('taxCzk', 6.2);
+    fixture.componentRef.setInput('totalCzk', 230.2);
     fixture.detectChanges();
 
     const text = fixture.nativeElement.textContent;
     expect(text).toContain('Mezisoučet');
+    expect(text).toContain('Doprava');
+    expect(text).toContain('DPH');
     expect(text).toContain('Celkem');
-    expect(text).not.toContain('Doprava');
-    expect(text).not.toContain('DPH');
   });
 });

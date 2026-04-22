@@ -19,7 +19,9 @@ export type UiKey =
   | 'emptyCart'
   | 'loading'
   | 'error'
-  | 'openBasket';
+  | 'openBasket'
+  | 'placeOrder'
+  | 'summaryHint';
 
 export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
   cs: {
@@ -42,6 +44,8 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     loading: 'Načítání…',
     error: 'Nepodařilo se načíst data.',
     openBasket: 'Otevřít košík',
+    placeOrder: 'Dokončit objednávku',
+    summaryHint: 'Zkontrolujte souhrn a pokračujte k objednávce.',
   },
   sk: {
     shopList: 'Zoznam produktov',
@@ -63,6 +67,8 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     loading: 'Načítavam…',
     error: 'Nepodarilo sa načítať dáta.',
     openBasket: 'Otvoriť košík',
+    placeOrder: 'Dokončiť objednávku',
+    summaryHint: 'Skontrolujte súhrn a pokračujte k objednávke.',
   },
   en: {
     shopList: 'Shop list',
@@ -84,6 +90,8 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     loading: 'Loading…',
     error: 'Failed to load data.',
     openBasket: 'Open basket',
+    placeOrder: 'Place order',
+    summaryHint: 'Review the summary before completing your order.',
   },
 };
 

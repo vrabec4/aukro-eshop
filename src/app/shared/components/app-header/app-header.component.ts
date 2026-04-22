@@ -21,12 +21,14 @@ import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="border-b border-gray-200 bg-white">
-      <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+      <div
+        class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8"
+      >
         <nav class="flex items-center gap-2" aria-label="Primary">
           <a
             mat-stroked-button
             routerLink="/shop"
-            routerLinkActive="!bg-green-700 !text-white"
+            routerLinkActive="!bg-indigo-600 !text-white"
             [routerLinkActiveOptions]="{ exact: true }"
           >
             {{ 'shopList' | translate }}

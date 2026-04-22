@@ -12,7 +12,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
     <a
       mat-stroked-button
       routerLink="/cart"
-      routerLinkActive="!bg-green-700 !text-white"
+      routerLinkActive="!bg-indigo-600 !text-white"
       [attr.aria-label]="'openBasket' | translate"
     >
       {{ 'basket' | translate }} ({{ count() }})

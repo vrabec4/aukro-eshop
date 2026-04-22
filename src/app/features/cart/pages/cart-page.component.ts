@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CartStoreService } from '../../../core/services/cart-store.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { CartItemRowComponent } from '../../../shared/ui/cart-item-row/cart-item-row.component';
@@ -7,33 +8,85 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [TranslatePipe, CartItemRowComponent, CartSummaryComponent],
+  imports: [RouterLink, TranslatePipe, CartItemRowComponent, CartSummaryComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="mx-auto max-w-5xl px-4 py-6">
-      <div class="mb-6 flex items-baseline gap-3 border-b border-gray-200 pb-4">
-        <h1 class="font-serif text-3xl">{{ 'basketTitle' | translate }}</h1>
-        <span class="text-sm text-gray-500">
-          {{ count() }} {{ 'itemsSuffix' | translate }}
+    <section class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">
+            {{ 'basket' | translate }}
+          </p>
+          <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+            {{ 'basketTitle' | translate }}
+          </h1>
+        </div>
+        <span
+          class="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700"
+        >
+          {{ count() }}
+          <span class="ml-1">{{ 'itemsSuffix' | translate }}</span>
         </span>
       </div>
 
       @if (lines().length === 0) {
-        <p class="text-gray-500">{{ 'emptyCart' | translate }}</p>
+        <div
+          class="rounded-[28px] border border-dashed border-slate-300 bg-white px-6 py-14 text-center shadow-[0_18px_50px_-30px_rgba(15,23,42,0.35)]"
+        >
+          <p class="text-base text-slate-500">{{ 'emptyCart' | translate }}</p>
+          <a
+            routerLink="/shop"
+            class="mt-5 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100"
+          >
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M14.09 5.5H1M6.143 10 1 5.5 6.143 1" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            {{ 'shopList' | translate }}
+          </a>
+        </div>
       } @else {
-        <div class="grid gap-4 md:grid-cols-3">
-          <div class="space-y-3 md:col-span-2">
-            @for (line of lines(); track line.product.id) {
-              <app-cart-item-row
-                [line]="line"
-                (remove)="onRemove(line.product.id)"
-              />
-            }
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-10">
+          <div class="min-w-0 flex-1">
+            <div
+              class="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_24px_60px_-36px_rgba(15,23,42,0.4)]"
+            >
+              <div
+                class="hidden grid-cols-[minmax(0,2fr)_auto_auto] items-center gap-4 border-b border-slate-200 bg-slate-50/80 px-6 py-4 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 md:grid"
+              >
+                <p>{{ 'shopTitle' | translate }}</p>
+                <p class="text-right">{{ 'subtotal' | translate }}</p>
+                <p class="text-center">{{ 'remove' | translate }}</p>
+              </div>
+
+              <div class="divide-y divide-slate-200 px-4 sm:px-6">
+                @for (line of lines(); track line.product.id) {
+                  <app-cart-item-row
+                    [line]="line"
+                    (remove)="onRemove(line.product.id)"
+                  />
+                }
+              </div>
+            </div>
+
+            <a
+              routerLink="/shop"
+              class="group mt-6 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-semibold text-indigo-600 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50"
+            >
+              <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M14.09 5.5H1M6.143 10 1 5.5 6.143 1" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              {{ 'shopList' | translate }}
+            </a>
           </div>
-          <app-cart-summary
-            [subtotalCzk]="subtotalCzk()"
-            [totalCzk]="totalCzk()"
-          />
+
+          <div class="w-full lg:max-w-[380px] lg:flex-none">
+            <app-cart-summary
+              [subtotalCzk]="subtotalCzk()"
+              [shippingCzk]="shippingCzk()"
+              [taxCzk]="taxCzk()"
+              [totalCzk]="totalCzk()"
+            />
+          </div>
         </div>
       }
     </section>
@@ -45,6 +98,8 @@ export class CartPageComponent {
   protected readonly count = this.cart.count;
   protected readonly lines = this.cart.lines;
   protected readonly subtotalCzk = this.cart.subtotalCzk;
+  protected readonly shippingCzk = this.cart.shippingCzk;
+  protected readonly taxCzk = this.cart.taxCzk;
   protected readonly totalCzk = this.cart.totalCzk;
 
   protected onRemove(productId: string): void {

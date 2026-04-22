@@ -8,22 +8,54 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
   imports: [PricePipe, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <aside class="h-fit rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <h2 class="mb-4 text-lg font-medium">{{ 'orderSummary' | translate }}</h2>
-      <dl class="space-y-2">
-        <div class="flex justify-between text-sm">
-          <dt class="text-gray-600">{{ 'subtotal' | translate }}</dt>
-          <dd>{{ subtotalCzk() | price }}</dd>
+    <aside
+      class="w-full rounded-[32px] border border-slate-200 bg-[linear-gradient(180deg,rgba(248,250,252,0.92),rgba(255,255,255,0.98))] p-6 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.45)] lg:sticky lg:top-24"
+    >
+      <h2 class="text-2xl font-semibold tracking-tight text-slate-900">
+        {{ 'orderSummary' | translate }}
+      </h2>
+      <p class="mt-2 text-sm leading-6 text-slate-500">
+        {{ 'summaryHint' | translate }}
+      </p>
+
+      <div class="mt-6 space-y-5">
+        <div class="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm">
+          <div class="space-y-3 text-sm text-slate-600">
+            <p class="flex items-center justify-between">
+              <span>{{ 'subtotal' | translate }}</span>
+              <span class="font-semibold text-slate-900">{{ subtotalCzk() | price }}</span>
+            </p>
+            <p class="flex items-center justify-between">
+              <span>{{ 'shipping' | translate }}</span>
+              <span class="font-semibold text-slate-900">{{ shippingCzk() | price }}</span>
+            </p>
+            <p class="flex items-center justify-between">
+              <span>{{ 'tax' | translate }}</span>
+              <span class="font-semibold text-slate-900">{{ taxCzk() | price }}</span>
+            </p>
+          </div>
+
+          <div class="my-4 h-px bg-slate-200"></div>
+
+          <p class="flex items-center justify-between text-lg font-semibold text-slate-900">
+            <span>{{ 'total' | translate }}</span>
+            <span>{{ totalCzk() | price }}</span>
+          </p>
         </div>
-        <div class="flex justify-between border-t border-gray-200 pt-2 font-semibold">
-          <dt>{{ 'total' | translate }}</dt>
-          <dd>{{ totalCzk() | price }}</dd>
-        </div>
-      </dl>
+
+        <button
+          type="button"
+          class="w-full rounded-2xl bg-slate-900 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+        >
+          {{ 'placeOrder' | translate }}
+        </button>
+      </div>
     </aside>
   `,
 })
 export class CartSummaryComponent {
   readonly subtotalCzk = input.required<number>();
+  readonly shippingCzk = input.required<number>();
+  readonly taxCzk = input.required<number>();
   readonly totalCzk = input.required<number>();
 }

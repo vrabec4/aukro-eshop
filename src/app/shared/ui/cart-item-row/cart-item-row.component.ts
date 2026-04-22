@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { CartLine } from '../../../core/services/cart-store.service';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { PricePipe } from '../../pipes/price.pipe';
@@ -8,38 +7,68 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 @Component({
   selector: 'app-cart-item-row',
   standalone: true,
-  imports: [MatButtonModule, PricePipe, TranslatePipe],
+  imports: [PricePipe, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <article
-      class="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+    <div
+      class="flex flex-col gap-4 py-5 text-sm text-slate-600 md:grid md:grid-cols-[minmax(0,2fr)_auto_auto] md:items-center md:gap-6 md:py-6 md:text-base"
     >
-      <img
-        [src]="line().product.imageUrl"
-        [alt]="localizedName()"
-        class="h-20 w-20 flex-none rounded object-contain"
-        loading="lazy"
-      />
-
-      <div class="flex min-w-0 flex-1 flex-col gap-1">
-        <h3 class="truncate font-medium text-gray-900">{{ localizedName() }}</h3>
-        <p class="text-xs text-gray-500">
-          {{ perUnitCzk() | price }} / {{ line().product.unit }}
-          · {{ line().item.quantity }}× {{ line().product.quantity }} {{ line().product.unit }}
-        </p>
+      <div class="flex min-w-0 items-start gap-3 md:gap-5">
+        <div
+          class="flex h-20 w-20 flex-none items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm sm:h-24 sm:w-24"
+        >
+          <img
+            [src]="line().product.imageUrl"
+            [alt]="localizedName()"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="min-w-0">
+          <p class="text-base font-semibold text-slate-900 sm:truncate">
+            {{ localizedName() }}
+          </p>
+          <div class="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
+            <span class="rounded-full bg-slate-100 px-2.5 py-1">
+              {{ line().item.quantity }} {{ line().product.unit }}
+            </span>
+            <span class="rounded-full bg-slate-100 px-2.5 py-1">
+              {{ perUnitCzk() | price }} / {{ line().product.unit }}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div class="flex flex-none flex-col items-end gap-2">
-        <span class="font-semibold text-gray-900">{{ line().lineTotalCzk | price }}</span>
+      <div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-1 md:contents md:border-t-0 md:pt-0">
+        <p class="text-lg font-semibold text-slate-900 md:text-right">
+          {{ line().lineTotalCzk | price }}
+        </p>
+
         <button
-          mat-flat-button
-          class="!bg-red-600 !text-white"
+          type="button"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-300 md:mx-auto"
+          [attr.aria-label]="'remove' | translate"
           (click)="remove.emit()"
         >
-          {{ 'remove' | translate }}
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="m12.5 7.5-5 5m0-5 5 5m5.833-2.5a8.333 8.333 0 1 1-16.667 0 8.333 8.333 0 0 1 16.667 0"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
       </div>
-    </article>
+    </div>
   `,
 })
 export class CartItemRowComponent {

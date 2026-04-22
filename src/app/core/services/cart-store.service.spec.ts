@@ -47,26 +47,33 @@ describe('CartStoreService', () => {
     service = TestBed.inject(CartStoreService);
   });
 
-  it('aggregates quantities and keeps total equal to product subtotal', () => {
-    service.add('apple');
-    service.add('apple');
-    service.add('banana');
+  it('aggregates amounts for the same product and computes subtotal', () => {
+    service.add('apple', 1);
+    service.add('apple', 1);
+    service.add('banana', 1);
 
-    expect(service.count()).toBe(3);
+    expect(service.count()).toBe(2); // two distinct products
     expect(service.lines()).toHaveLength(2);
-    expect(service.subtotalCzk()).toBe(133);
-    expect(service.totalCzk()).toBe(133);
+    expect(service.subtotalCzk()).toBe(133); // 2×49 + 1×35
   });
 
-  it('removes items when quantity reaches zero', () => {
+  it('applies shipping and tax on top of subtotal', () => {
+    service.add('apple', 1); // 49 CZK
+    expect(service.subtotalCzk()).toBe(49);
+    expect(service.shippingCzk()).toBe(100);
+    expect(service.taxCzk()).toBeCloseTo(49 * 0.05, 5);
+    expect(service.totalCzk()).toBeCloseTo(49 + 100 + 49 * 0.05, 5);
+  });
+
+  it('clears the cart and zeroes shipping + tax when empty', () => {
     service.add('apple', 2);
+    service.remove('apple');
 
-    service.decrement('apple');
-    expect(service.count()).toBe(1);
-
-    service.decrement('apple');
     expect(service.count()).toBe(0);
     expect(service.lines()).toHaveLength(0);
+    expect(service.subtotalCzk()).toBe(0);
+    expect(service.shippingCzk()).toBe(0);
+    expect(service.taxCzk()).toBe(0);
     expect(service.totalCzk()).toBe(0);
   });
 });
