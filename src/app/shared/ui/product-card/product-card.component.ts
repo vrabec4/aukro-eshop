@@ -20,9 +20,14 @@ import { UnitPipe } from '../../pipes/unit.pipe';
       >
         <img
           [src]="product().images.card || fallbackImage"
+          [srcset]="cardSrcset()"
+          sizes="(min-width: 768px) 42vw, 100vw"
           [alt]="localizedName()"
           class="absolute inset-0 h-full w-full object-cover object-center"
+          width="400"
+          height="300"
           loading="lazy"
+          decoding="async"
           (error)="onImageError($event)"
         />
       </div>
@@ -120,6 +125,12 @@ export class ProductCardComponent {
     const q = this.product().quantity;
     // 0.1 for sub-kg items, 1 otherwise.
     return q < 1 ? 0.1 : 1;
+  });
+
+  readonly cardSrcset = computed(() => {
+    const { card, full } = this.product().images;
+    if (!card) return null;
+    return full && full !== card ? `${card} 400w, ${full} 730w` : null;
   });
 
   protected onAmountChange(value: number | null): void {

@@ -22,7 +22,10 @@ import { UnitPipe } from '../../pipes/unit.pipe';
             [src]="line().product.images.thumb"
             [alt]="localizedName()"
             class="h-full w-full object-cover"
+            width="73"
+            height="73"
             loading="lazy"
+            decoding="async"
           />
         </div>
         <div class="min-w-0">
