@@ -16,14 +16,6 @@ import { Product, ProductUnit } from '../models/product.model';
 export class OffersApiService {
   private readonly http = inject(HttpClient);
 
-  /**
-   * Merge strategy (Option M):
-   *  1. Call the real Aukro endpoint. 12 of 14 pinned IDs are expired; 2 remain.
-   *  2. Always load /offers.json as a fruit/veg supplement (and sole fallback).
-   *  3. Concatenate and map both DTO streams to Product view models.
-   *  Either call failing individually is swallowed to an empty list — a total
-   *  failure only happens if /offers.json is missing.
-   */
   fetchOffers(): Observable<Product[]> {
     const params = new HttpParams()
       .set('currency', 'CZK')

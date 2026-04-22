@@ -49,17 +49,16 @@ export class CartStoreService {
     () => this.subtotalCzk() + this.shippingCzk() + this.taxCzk(),
   );
 
-  /**
-   * Add a given amount (in product units, e.g. kg/pcs/bundle) to the cart.
-   * If the product is already in the cart, the amounts are summed.
-   */
   add(productId: string, amount: number): void {
     if (amount <= 0) return;
     const items = this._items();
     const idx = items.findIndex((it) => it.productId === productId);
     if (idx >= 0) {
       const updated = [...items];
-      updated[idx] = { ...updated[idx], quantity: updated[idx].quantity + amount };
+      updated[idx] = {
+        ...updated[idx],
+        quantity: updated[idx].quantity + amount,
+      };
       this._items.set(updated);
     } else {
       this._items.set([...items, { productId, quantity: amount }]);
