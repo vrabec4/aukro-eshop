@@ -1,0 +1,82 @@
+[
+  {
+    "id": 90000001,
+    "name": "Heirloom rajče",
+    "buyNowPrice": { "amount": 89, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/tomato.svg", "titleImage": true }] } },
+    "unit": "kg",
+    "quantity": 0.5
+  },
+  {
+    "id": 90000002,
+    "name": "Fuji jablko",
+    "buyNowPrice": { "amount": 49, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/apple.svg", "titleImage": true }] } },
+    "unit": "kg",
+    "quantity": 1
+  },
+  {
+    "id": 90000003,
+    "name": "Banán",
+    "buyNowPrice": { "amount": 35, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/banana.svg", "titleImage": true }] } },
+    "unit": "kg",
+    "quantity": 1
+  },
+  {
+    "id": 90000004,
+    "name": "Svazek mrkve",
+    "buyNowPrice": { "amount": 29, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/carrot.svg", "titleImage": true }] } },
+    "unit": "bundle",
+    "quantity": 1
+  },
+  {
+    "id": 90000005,
+    "name": "Okurka",
+    "buyNowPrice": { "amount": 45, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/cucumber.svg", "titleImage": true }] } },
+    "unit": "pcs",
+    "quantity": 1
+  },
+  {
+    "id": 90000006,
+    "name": "Citron",
+    "buyNowPrice": { "amount": 39, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/lemon.svg", "titleImage": true }] } },
+    "unit": "pcs",
+    "quantity": 1
+  },
+  {
+    "id": 90000007,
+    "name": "Sladká cibule",
+    "buyNowPrice": { "amount": 25, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/onion.svg", "titleImage": true }] } },
+    "unit": "kg",
+    "quantity": 0.5
+  },
+  {
+    "id": 90000008,
+    "name": "Bio brambory",
+    "buyNowPrice": { "amount": 19, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/potato.svg", "titleImage": true }] } },
+    "unit": "kg",
+    "quantity": 2
+  },
+  {
+    "id": 90000009,
+    "name": "Červená paprika",
+    "buyNowPrice": { "amount": 79, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/pepper.svg", "titleImage": true }] } },
+    "unit": "pcs",
+    "quantity": 1
+  },
+  {
+    "id": 90000010,
+    "name": "Bio zázvor",
+    "buyNowPrice": { "amount": 149, "currency": "CZK" },
+    "images": { "lists": { "medium": [{ "url": "/images/products/ginger.svg", "titleImage": true }] } },
+    "unit": "kg",
+    "quantity": 0.25
+  }
+]

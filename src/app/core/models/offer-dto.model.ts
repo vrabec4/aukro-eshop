@@ -1,3 +1,5 @@
+import { ProductUnit } from './product.model';
+
 export interface OfferPrice {
   amount: number;
   currency: string;
@@ -23,6 +25,10 @@ export interface OfferDto {
   buyNowPrice?: OfferPrice;
   biddingPrice?: OfferPrice;
   images?: { lists?: OfferImageLists };
+
+  // Local-fallback extras. Not present on live Aukro responses; defaults applied in mapping.
+  unit?: ProductUnit;
+  quantity?: number;
 }
 
 export interface CarouselOffersResponse {
