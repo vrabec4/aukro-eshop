@@ -1,35 +1,74 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AUKRO_OFFERS_ENDPOINT, LIVE_OFFER_IDS } from '../constants/offer-ids';
+import {
+  AUKRO_SEARCH_ENDPOINT,
+  CATEGORY_ID_FRUIT_VEG,
+} from '../constants/offer-ids';
 import { PRODUCT_NAMES } from '../constants/i18n';
 import { Language } from '../models/language.model';
-import { CarouselOffersResponse, OfferDto } from '../models/offer-dto.model';
+import {
+  SearchItemDto,
+  SearchItemsPage,
+  SearchItemsResponse,
+} from '../models/offer-dto.model';
 import { Product, ProductImages, ProductUnit } from '../models/product.model';
+
+export interface OffersPage {
+  products: Product[];
+  page: number; // 0-indexed
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+}
+
+const EMPTY_PAGE: OffersPage = {
+  products: [],
+  page: 0,
+  pageSize: 0,
+  totalPages: 0,
+  totalElements: 0,
+};
 
 @Injectable({ providedIn: 'root' })
 export class OffersApiService {
   private readonly http = inject(HttpClient);
 
-  fetchOffers(): Observable<Product[]> {
+  fetchPage(page: number, size: number): Observable<OffersPage> {
     const params = new HttpParams()
-      .set('currency', 'CZK')
-      .set('ids', LIVE_OFFER_IDS.join(','));
+      .set('page', page)
+      .set('size', size)
+      .set('sort', 'relevance:DESC');
+
+    const headers = new HttpHeaders({
+      'X-Accept-Currency': 'CZK',
+      'X-Accept-Language': 'cs-CZ',
+    });
 
     return this.http
-      .get<CarouselOffersResponse>(AUKRO_OFFERS_ENDPOINT, { params })
+      .post<SearchItemsResponse>(
+        AUKRO_SEARCH_ENDPOINT,
+        { categoryId: CATEGORY_ID_FRUIT_VEG },
+        { params, headers },
+      )
       .pipe(
-        map((response) => (response.content ?? []).map(mapDtoToProduct)),
-        catchError(() => of<Product[]>([])),
+        map((res) => ({
+          products: (res.content ?? []).map(mapSearchItemToProduct),
+          page: res.page?.number ?? page,
+          pageSize: res.page?.size ?? size,
+          totalPages: res.page?.totalPages ?? 0,
+          totalElements: res.page?.totalElements ?? 0,
+        })),
+        catchError(() => of<OffersPage>({ ...EMPTY_PAGE, page, pageSize: size })),
       );
   }
 }
 
-function mapDtoToProduct(dto: OfferDto): Product {
-  const id = String(dto.id);
-  const basePriceCzk = dto.buyNowPrice?.amount ?? dto.biddingPrice?.amount ?? 0;
-  const apiName = dto.name;
+function mapSearchItemToProduct(dto: SearchItemDto): Product {
+  const id = String(dto.itemId);
+  const priceCzk = dto.buyNowPrice?.amount ?? dto.price?.amount ?? 0;
+  const apiName = dto.itemName;
   const localized = PRODUCT_NAMES[id];
   const name: Record<Language, string> = localized ?? {
     cs: apiName,
@@ -40,23 +79,27 @@ function mapDtoToProduct(dto: OfferDto): Product {
   return {
     id,
     name,
-    images: pickImages(dto),
-    unit: dto.unit ?? ('pcs' as ProductUnit),
+    images: imagesFromTitleUrl(dto.titleImageUrl ?? dto.titleImage?.url ?? ''),
+    unit: quantityTypeToUnit(dto.quantityType),
     quantity: dto.quantity ?? 1,
-    basePriceCzk,
+    basePriceCzk: priceCzk,
   };
 }
 
-function pickImages(dto: OfferDto): ProductImages {
-  const lists = dto.images?.lists;
-  const small = lists?.small?.[0]?.url ?? '';
-  const medium = lists?.medium?.[0]?.url ?? '';
-  const large = lists?.large?.[0]?.url ?? '';
-  const original = lists?.original?.[0]?.url ?? '';
-  // Fall through when a specific size is missing so we never show a blank image.
-  return {
-    thumb: small || medium || large || original,
-    card: medium || large || small || original,
-    full: large || original || medium || small,
-  };
+function imagesFromTitleUrl(url: string): ProductImages {
+  // Aukro CDN pattern: /images/<dir>/<size>/<file>
+  // size is one of: thumbnail | 73x73 | 400x300 | 730x548 | (omitted = original)
+  // Swap the size segment to derive the variants we need.
+  if (!url) return { thumb: '', card: '', full: '' };
+  const swap = (size: string) =>
+    url.replace(/\/(thumbnail|73x73|400x300|730x548)\//, `/${size}/`);
+  return { thumb: swap('73x73'), card: swap('400x300'), full: swap('730x548') };
 }
+
+function quantityTypeToUnit(qt: string | undefined): ProductUnit {
+  if (qt === 'sets') return 'bundle';
+  return 'pcs';
+}
+
+// Re-export so callers have a typed view of the page metadata if needed.
+export type { SearchItemsPage };

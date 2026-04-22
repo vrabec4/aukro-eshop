@@ -22,7 +22,10 @@ export type UiKey =
   | 'error'
   | 'openBasket'
   | 'placeOrder'
-  | 'summaryHint';
+  | 'summaryHint'
+  | 'previous'
+  | 'next'
+  | 'perPage';
 
 export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
   cs: {
@@ -47,6 +50,9 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     openBasket: 'Otevřít košík',
     placeOrder: 'Dokončit objednávku',
     summaryHint: 'Zkontrolujte souhrn a pokračujte k objednávce.',
+    previous: 'Předchozí',
+    next: 'Další',
+    perPage: 'Na stránku',
   },
   sk: {
     shopList: 'Zoznam produktov',
@@ -70,6 +76,9 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     openBasket: 'Otvoriť košík',
     placeOrder: 'Dokončiť objednávku',
     summaryHint: 'Skontrolujte súhrn a pokračujte k objednávke.',
+    previous: 'Predchádzajúca',
+    next: 'Ďalšia',
+    perPage: 'Na stránku',
   },
   en: {
     shopList: 'Shop list',
@@ -93,6 +102,9 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     openBasket: 'Open basket',
     placeOrder: 'Place order',
     summaryHint: 'Review the summary before completing your order.',
+    previous: 'Previous',
+    next: 'Next',
+    perPage: 'Per page',
   },
 };
 

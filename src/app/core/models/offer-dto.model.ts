@@ -34,3 +34,34 @@ export interface OfferDto {
 export interface CarouselOffersResponse {
   content: OfferDto[];
 }
+
+// --- searchItemsCommon ---------------------------------------------------
+// Listing endpoint used by the Aukro category pages. Returns a page slice
+// with a different item shape than carouselOffers.
+
+export interface SearchItemDto {
+  itemId: number;
+  itemName: string;
+  buyNowPrice?: OfferPrice;
+  price?: OfferPrice;
+  priceWithShipping?: OfferPrice;
+  titleImage?: { url: string };
+  titleImageUrl?: string;
+  quantity?: number;
+  quantityType?: 'pieces' | 'sets' | string;
+  seoUrl?: string;
+  itemState?: string;
+  buyNowActive?: boolean;
+}
+
+export interface SearchItemsPage {
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  number: number; // current page, 0-indexed
+}
+
+export interface SearchItemsResponse {
+  content: SearchItemDto[];
+  page: SearchItemsPage;
+}
