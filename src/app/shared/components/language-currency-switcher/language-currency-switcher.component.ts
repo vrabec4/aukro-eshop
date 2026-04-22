@@ -13,7 +13,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex flex-wrap items-center gap-2">
-      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-32">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-36">
         <mat-label>{{ 'language' | translate }}</mat-label>
         <mat-select
           [ngModel]="language()"
@@ -26,7 +26,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-32">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-36">
         <mat-label>{{ 'currency' | translate }}</mat-label>
         <mat-select
           [ngModel]="currency()"
