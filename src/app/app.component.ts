@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Currency, DEFAULT_CURRENCY } from './core/models/currency.model';
-import { DEFAULT_LANGUAGE, Language } from './core/models/language.model';
+import { Currency } from './core/models/currency.model';
+import { Language } from './core/models/language.model';
+import { CartStoreService } from './core/services/cart-store.service';
+import { SettingsStoreService } from './core/services/settings-store.service';
 import { AppHeaderComponent } from './shared/components/app-header/app-header.component';
 
 @Component({
@@ -13,16 +15,18 @@ import { AppHeaderComponent } from './shared/components/app-header/app-header.co
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  // Phase 2 stub state. Phase 3 replaces these with SettingsStoreService + CartStoreService.
-  protected readonly language = signal<Language>(DEFAULT_LANGUAGE);
-  protected readonly currency = signal<Currency>(DEFAULT_CURRENCY);
-  protected readonly cartCount = signal(0);
+  private readonly settings = inject(SettingsStoreService);
+  private readonly cart = inject(CartStoreService);
 
-  protected setLanguage(lang: Language): void {
-    this.language.set(lang);
+  protected readonly language = this.settings.language;
+  protected readonly currency = this.settings.currency;
+  protected readonly cartCount = this.cart.count;
+
+  protected setLanguage(language: Language): void {
+    this.settings.setLanguage(language);
   }
 
-  protected setCurrency(cur: Currency): void {
-    this.currency.set(cur);
+  protected setCurrency(currency: Currency): void {
+    this.settings.setCurrency(currency);
   }
 }
