@@ -12,7 +12,7 @@ describe('CartStoreService', () => {
       {
         id: 'apple',
         name: { cs: 'Jablko', sk: 'Jablko', en: 'Apple' },
-        imageUrl: '/apple.svg',
+        images: { thumb: '/apple-s.svg', card: '/apple-m.svg', full: '/apple-l.svg' },
         unit: 'kg',
         quantity: 1,
         basePriceCzk: 49,
@@ -23,7 +23,7 @@ describe('CartStoreService', () => {
       {
         id: 'banana',
         name: { cs: 'Banan', sk: 'Banán', en: 'Banana' },
-        imageUrl: '/banana.svg',
+        images: { thumb: '/banana-s.svg', card: '/banana-m.svg', full: '/banana-l.svg' },
         unit: 'kg',
         quantity: 1,
         basePriceCzk: 35,

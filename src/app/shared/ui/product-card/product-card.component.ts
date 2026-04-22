@@ -19,7 +19,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
         class="relative h-64 w-full flex-none overflow-hidden bg-slate-100 md:h-auto md:w-[42%]"
       >
         <img
-          [src]="product().imageUrl || fallbackImage"
+          [src]="product().images.card || fallbackImage"
           [alt]="localizedName()"
           class="absolute inset-0 h-full w-full object-cover object-center"
           loading="lazy"

@@ -11,7 +11,11 @@ describe('ProductCardComponent', () => {
       sk: 'Heirloom paradajka',
       en: 'Heirloom tomato',
     },
-    imageUrl: 'https://example.com/tomato.jpg',
+    images: {
+      thumb: 'https://example.com/tomato-73.jpg',
+      card: 'https://example.com/tomato-400.jpg',
+      full: 'https://example.com/tomato-730.jpg',
+    },
     unit: 'kg',
     quantity: 0.5,
     basePriceCzk: 89,

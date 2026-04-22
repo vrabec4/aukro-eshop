@@ -19,7 +19,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
           class="flex h-20 w-20 flex-none items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm sm:h-24 sm:w-24"
         >
           <img
-            [src]="line().product.imageUrl"
+            [src]="line().product.images.thumb"
             [alt]="localizedName()"
             class="h-full w-full object-cover"
             loading="lazy"

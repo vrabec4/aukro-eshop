@@ -6,7 +6,7 @@ import { AUKRO_OFFERS_ENDPOINT, LIVE_OFFER_IDS } from '../constants/offer-ids';
 import { PRODUCT_NAMES } from '../constants/i18n';
 import { Language } from '../models/language.model';
 import { CarouselOffersResponse, OfferDto } from '../models/offer-dto.model';
-import { Product, ProductUnit } from '../models/product.model';
+import { Product, ProductImages, ProductUnit } from '../models/product.model';
 
 @Injectable({ providedIn: 'root' })
 export class OffersApiService {
@@ -28,11 +28,6 @@ export class OffersApiService {
 
 function mapDtoToProduct(dto: OfferDto): Product {
   const id = String(dto.id);
-  const imageUrl =
-    dto.images?.lists?.medium?.[0]?.url ??
-    dto.images?.lists?.large?.[0]?.url ??
-    dto.images?.lists?.original?.[0]?.url ??
-    '';
   const basePriceCzk = dto.buyNowPrice?.amount ?? dto.biddingPrice?.amount ?? 0;
   const apiName = dto.name;
   const localized = PRODUCT_NAMES[id];
@@ -45,9 +40,23 @@ function mapDtoToProduct(dto: OfferDto): Product {
   return {
     id,
     name,
-    imageUrl,
+    images: pickImages(dto),
     unit: dto.unit ?? ('pcs' as ProductUnit),
     quantity: dto.quantity ?? 1,
     basePriceCzk,
+  };
+}
+
+function pickImages(dto: OfferDto): ProductImages {
+  const lists = dto.images?.lists;
+  const small = lists?.small?.[0]?.url ?? '';
+  const medium = lists?.medium?.[0]?.url ?? '';
+  const large = lists?.large?.[0]?.url ?? '';
+  const original = lists?.original?.[0]?.url ?? '';
+  // Fall through when a specific size is missing so we never show a blank image.
+  return {
+    thumb: small || medium || large || original,
+    card: medium || large || small || original,
+    full: large || original || medium || small,
   };
 }
