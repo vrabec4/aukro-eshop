@@ -75,7 +75,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 
           <button
             type="button"
-            class="w-full cursor-pointer bg-slate-800 px-8 py-2 text-sm font-medium uppercase tracking-wide text-white transition hover:bg-slate-900 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
+            class="w-full cursor-pointer rounded bg-slate-800 px-8 py-2 text-sm font-medium uppercase tracking-wide text-white transition hover:bg-slate-900 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
             [disabled]="selectedAmount() <= 0"
             (click)="addToCart.emit(selectedAmount())"
           >
