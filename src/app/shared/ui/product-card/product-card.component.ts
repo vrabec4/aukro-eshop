@@ -4,11 +4,12 @@ import { Product } from '../../../core/models/product.model';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { PricePipe } from '../../pipes/price.pipe';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { UnitPipe } from '../../pipes/unit.pipe';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [FormsModule, PricePipe, TranslatePipe],
+  imports: [FormsModule, PricePipe, TranslatePipe, UnitPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article
@@ -34,7 +35,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
         </div>
 
         <p class="text-sm text-slate-500">
-          {{ pricePerUnitCzk() | price }} / {{ product().unit }}
+          {{ pricePerUnitCzk() | price }} / {{ product().unit | unit }}
         </p>
 
         <p class="text-xl font-medium text-slate-800">
@@ -55,7 +56,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 class="w-14 bg-transparent text-right outline-none"
                 [attr.aria-label]="'amount'"
               />
-              <span>{{ product().unit }}</span>
+              <span>{{ product().unit | unit }}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

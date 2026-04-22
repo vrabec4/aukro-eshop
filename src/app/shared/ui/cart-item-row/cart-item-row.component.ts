@@ -3,11 +3,12 @@ import { CartLine } from '../../../core/services/cart-store.service';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { PricePipe } from '../../pipes/price.pipe';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { UnitPipe } from '../../pipes/unit.pipe';
 
 @Component({
   selector: 'app-cart-item-row',
   standalone: true,
-  imports: [PricePipe, TranslatePipe],
+  imports: [PricePipe, TranslatePipe, UnitPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -30,10 +31,10 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           </p>
           <div class="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
             <span class="rounded-full bg-slate-100 px-2.5 py-1">
-              {{ line().item.quantity }} {{ line().product.unit }}
+              {{ line().item.quantity }} {{ line().product.unit | unit }}
             </span>
             <span class="rounded-full bg-slate-100 px-2.5 py-1">
-              {{ perUnitCzk() | price }} / {{ line().product.unit }}
+              {{ perUnitCzk() | price }} / {{ line().product.unit | unit }}
             </span>
           </div>
         </div>

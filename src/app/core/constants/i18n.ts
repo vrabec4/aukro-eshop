@@ -1,4 +1,5 @@
 import { Language } from '../models/language.model';
+import { ProductUnit } from '../models/product.model';
 
 export type UiKey =
   | 'shopList'
@@ -119,6 +120,12 @@ export const PRODUCT_NAMES: Record<string, Record<Language, string>> = {
     sk: 'Pokémon TCG: Radiant Sneasler',
     en: 'Pokémon TCG: Radiant Sneasler',
   },
+};
+
+export const UNIT_LABELS: Record<Language, Record<ProductUnit, string>> = {
+  cs: { kg: 'kg', pcs: 'ks', bundle: 'svazek' },
+  sk: { kg: 'kg', pcs: 'ks', bundle: 'zväzok' },
+  en: { kg: 'kg', pcs: 'pcs', bundle: 'bundle' },
 };
 
 export const LANGUAGE_LOCALES: Record<Language, string> = {
