@@ -1,38 +1,21 @@
 // Material 3 system-token retargets.
 //
 // The prebuilt @angular/material/prebuilt-themes/azure-blue.css loads as
-// the base theme (see angular.json > styles) and defines a full set of
-// --mat-sys-* tokens for Material components. Most of its colors are
-// already masked by our .btn-action / .btn-ghost variants,
-// but a few places still fall back to the system palette — notably the
-// <mat-select> dropdown's selected-option background, which would
-// otherwise render in azure primary-container.
+// the base theme (see angular.json > styles) and defines the --mat-sys-*
+// tokens for Material components. Most are already masked by our
+// .btn-action / .btn-ghost button variants, but a handful of places
+// still fall back to the system palette — notably the mat-snack-bar
+// toast, which would otherwise render in azure-blue's inverse-surface.
 //
-// Rather than replace the whole theme with mat.define-theme(), this
-// partial retargets the specific tokens our UI actually surfaces so
-// Material fallbacks pick up our slate-900 action color.
+// This partial retargets the specific tokens our UI actually surfaces
+// so Material fallbacks pick up our slate-900 / emerald-600 palette.
 
 :root {
+  // Primary — used by Material for ripple/focus-ring fallbacks on
+  // mat-flat-button / mat-stroked-button where we don't explicitly set
+  // the MDC component token.
   --mat-sys-primary: var(--color-action);
   --mat-sys-on-primary: var(--color-on-action);
-  --mat-sys-primary-container: var(--color-border);     // slate-200
-  --mat-sys-on-primary-container: var(--color-action);
-
-  // mat-select's selected option pulls its state layer from
-  // --mat-sys-secondary-container, not primary-container. Retarget so the
-  // highlight matches our palette instead of azure-blue's #dae2f9 tint.
-  --mat-sys-secondary-container: var(--color-border);
-  --mat-sys-on-secondary-container: var(--color-action);
-
-  // Surface tokens — azure-blue's defaults are tinted pinkish-grey
-  // (#efedf0) for elevated containers like mat-select panels, mat-menu,
-  // and mat-dialog. Flatten them to white/slate so overlays read as
-  // clean neutral surfaces against our slate-900 action color.
-  --mat-sys-surface: #ffffff;
-  --mat-sys-surface-container: #ffffff;
-  --mat-sys-surface-container-low: #ffffff;
-  --mat-sys-surface-container-high: var(--color-surface-hover);   // slate-50
-  --mat-sys-surface-container-highest: var(--color-border);       // slate-200
 
   // Inverse surface drives the mat-snack-bar (toast) background.
   // Default is a neutral dark #2f3033; align with our slate-900 action
@@ -40,17 +23,4 @@
   --mat-sys-inverse-surface: var(--color-action);
   --mat-sys-inverse-on-surface: var(--color-on-action);
   --mat-sys-inverse-primary: var(--color-accent);
-}
-
-// Material's default panel shadow is too subtle against our white page
-// backgrounds — without a visible edge the dropdown reads as
-// "unstyled". Add a slate-200 border and a firmer shadow so the panel
-// sits like a distinct card above the content.
-.mat-mdc-select-panel,
-.mat-mdc-menu-panel,
-.mat-mdc-autocomplete-panel {
-  border: 1px solid var(--color-border);
-  box-shadow:
-    0 10px 30px -12px rgba(15, 23, 42, 0.22),
-    0 2px 6px -2px rgba(15, 23, 42, 0.08) !important;
 }

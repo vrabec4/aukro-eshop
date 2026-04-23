@@ -28,24 +28,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* Ripple overlay colors follow the button's own text color. */
 .mat-mdc-button-persistent-ripple::before { background-color: currentColor !important; }
 
-/* Form field: hide subscript globally. `.no-chrome` strips the wrapper
- * so the field collapses to a bare input/select. */
-.mat-mdc-form-field-subscript-wrapper { display: none !important; }
-.mat-mdc-form-field.no-chrome {
-  display: inline-flex;
-  align-items: center;
-  width: auto;
-  .mat-mdc-text-field-wrapper { padding: 0 !important; background: transparent !important; flex: 1 1 100% !important; }
-  .mdc-notched-outline { display: none !important; }
-  .mat-mdc-form-field-infix { padding: 0 !important; min-height: 0 !important; width: 100% !important; }
-  .mat-mdc-form-field-flex { padding: 0 !important; width: 100% !important; }
-  .mdc-line-ripple { display: none !important; }
-  .mat-mdc-select-arrow-wrapper { padding: 0 0 0 0.5rem !important; }
-  /* Visual padding lives on the trigger (not on the form-field wrapper)
-   * so the mat-select's measurable width matches the pill chrome. */
-  .mat-mdc-select-trigger { padding: 0.375rem 0.75rem !important; width: 100% !important; }
-  /* Stretch inner mat-select so its edges match the pill chrome. */
-  .mat-mdc-select { width: 100% !important; }
-}
-
 @tailwind utilities;

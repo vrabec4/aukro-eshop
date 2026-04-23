@@ -1,7 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UI_LABELS } from '../../../../core/constants/i18n';
 import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/offer-ids';
@@ -18,9 +15,6 @@ import { ProductCardComponent } from '../../../../shared/ui/product-card/product
   selector: 'app-shop-page',
   standalone: true,
   imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
     TranslatePipe,
     PaginationComponent,
     ProductCardComponent,

@@ -7,24 +7,33 @@
       </span>
     </h1>
 
-    <div class="flex items-center gap-2 text-sm text-slate-600">
+    <label class="flex items-center gap-2 text-sm text-slate-600">
       <span>{{ 'perPage' | translate }}</span>
-      <mat-form-field
-        class="no-chrome cursor-pointer rounded-full border border-slate-200 bg-white text-sm font-medium text-slate-700 shadow-sm"
-        appearance="outline"
-      >
-        <mat-select
+      <span class="relative inline-block">
+        <select
+          class="cursor-pointer appearance-none rounded-full border border-slate-200 bg-white py-1.5 pl-4 pr-9 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
           [value]="pageSize()"
-          (valueChange)="onPageSizeChange($event)"
-          [aria-label]="'perPage' | translate"
-          hideSingleSelectionIndicator
+          (change)="onPageSizeChange(+$any($event.target).value)"
         >
           @for (opt of pageSizeOptions; track opt) {
-            <mat-option [value]="opt">{{ opt }}</mat-option>
+            <option [value]="opt">{{ opt }}</option>
           }
-        </mat-select>
-      </mat-form-field>
-    </div>
+        </select>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </span>
+    </label>
   </div>
 
   @if (error()) {
