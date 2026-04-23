@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartStoreService } from '../../../core/services/cart-store.service';
-import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
-import { CartItemRowComponent } from '../../../shared/ui/cart-item-row/cart-item-row.component';
-import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summary.component';
+import { CartStoreService } from '../../../../core/services/cart-store.service';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { CartItemRowComponent } from '../../../../shared/ui/cart-item-row/cart-item-row.component';
+import { CartSummaryComponent } from '../../../../shared/ui/cart-summary/cart-summary.component';
 
 @Component({
   selector: 'app-cart-page',

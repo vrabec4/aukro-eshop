@@ -3,12 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { PAGE_SIZE_OPTIONS } from '../../../core/constants/offer-ids';
-import { Product } from '../../../core/models/product.model';
-import { CartStoreService } from '../../../core/services/cart-store.service';
-import { CatalogService } from '../../../core/services/catalog.service';
-import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
-import { ProductCardComponent } from '../../../shared/ui/product-card/product-card.component';
+import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/offer-ids';
+import { Product } from '../../../../core/models/product.model';
+import { CartStoreService } from '../../../../core/services/cart-store.service';
+import { CatalogService } from '../../../../core/services/catalog.service';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { ProductCardComponent } from '../../../../shared/ui/product-card/product-card.component';
 
 @Component({
   selector: 'app-shop-page',
