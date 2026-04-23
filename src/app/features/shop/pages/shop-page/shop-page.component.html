@@ -17,7 +17,6 @@
           [value]="pageSize()"
           (valueChange)="onPageSizeChange($event)"
           [aria-label]="'perPage' | translate"
-          panelClass="rounded-xl"
         >
           @for (opt of pageSizeOptions; track opt) {
             <mat-option [value]="opt">{{ opt }}</mat-option>

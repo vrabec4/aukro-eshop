@@ -23,4 +23,14 @@
   // highlight matches our palette instead of azure-blue's #dae2f9 tint.
   --mat-sys-secondary-container: var(--color-border);
   --mat-sys-on-secondary-container: var(--color-action);
+
+  // Surface tokens — azure-blue's defaults are tinted pinkish-grey
+  // (#efedf0) for elevated containers like mat-select panels, mat-menu,
+  // and mat-dialog. Flatten them to white/slate so overlays read as
+  // clean neutral surfaces against our slate-900 action color.
+  --mat-sys-surface: #ffffff;
+  --mat-sys-surface-container: #ffffff;
+  --mat-sys-surface-container-low: #ffffff;
+  --mat-sys-surface-container-high: var(--color-surface-hover);   // slate-50
+  --mat-sys-surface-container-highest: var(--color-border);       // slate-200
 }
