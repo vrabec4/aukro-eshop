@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,6 +11,7 @@ import { CatalogService } from '../../../../core/services/catalog.service';
 import { SettingsStoreService } from '../../../../core/services/settings-store.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
+import { ProductCardSkeletonComponent } from '../../../../shared/ui/product-card-skeleton/product-card-skeleton.component';
 import { ProductCardComponent } from '../../../../shared/ui/product-card/product-card.component';
 
 @Component({
@@ -23,6 +24,7 @@ import { ProductCardComponent } from '../../../../shared/ui/product-card/product
     TranslatePipe,
     PaginationComponent,
     ProductCardComponent,
+    ProductCardSkeletonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shop-page.component.html',
@@ -40,6 +42,11 @@ export class ShopPageComponent {
   protected readonly totalPages = this.catalog.totalPages;
   protected readonly totalElements = this.catalog.totalElements;
   protected readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
+  // Render one skeleton per slot so the grid layout lands at full size
+  // immediately and doesn't reflow when the real products arrive.
+  protected readonly skeletonSlots = computed(() =>
+    Array.from({ length: this.pageSize() }, (_, i) => i),
+  );
 
   protected onAddToCart(product: Product, amount: number): void {
     this.cart.add(product.id, amount);
