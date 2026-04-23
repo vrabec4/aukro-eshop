@@ -33,6 +33,13 @@
   --mat-sys-surface-container-low: #ffffff;
   --mat-sys-surface-container-high: var(--color-surface-hover);   // slate-50
   --mat-sys-surface-container-highest: var(--color-border);       // slate-200
+
+  // Inverse surface drives the mat-snack-bar (toast) background.
+  // Default is a neutral dark #2f3033; align with our slate-900 action
+  // so the toast reads as part of the same palette family.
+  --mat-sys-inverse-surface: var(--color-action);
+  --mat-sys-inverse-on-surface: var(--color-on-action);
+  --mat-sys-inverse-primary: var(--color-accent);
 }
 
 // Material's default panel shadow is too subtle against our white page

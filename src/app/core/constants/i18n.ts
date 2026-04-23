@@ -26,7 +26,9 @@ export type UiKey =
   | 'previous'
   | 'next'
   | 'perPage'
-  | 'amount';
+  | 'amount'
+  | 'addedToBasket'
+  | 'dismiss';
 
 export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
   cs: {
@@ -55,6 +57,8 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     next: 'Další',
     perPage: 'Na stránku',
     amount: 'Množství',
+    addedToBasket: 'Přidáno do košíku',
+    dismiss: 'Zavřít',
   },
   sk: {
     shopList: 'Zoznam produktov',
@@ -82,6 +86,8 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     next: 'Ďalšia',
     perPage: 'Na stránku',
     amount: 'Množstvo',
+    addedToBasket: 'Pridané do košíka',
+    dismiss: 'Zavrieť',
   },
   en: {
     shopList: 'Shop list',
@@ -109,6 +115,8 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     next: 'Next',
     perPage: 'Per page',
     amount: 'Quantity',
+    addedToBasket: 'Added to basket',
+    dismiss: 'Dismiss',
   },
 };
 
