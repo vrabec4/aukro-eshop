@@ -11,6 +11,10 @@
   --mdc-filled-button-container-color: var(--color-action);
   --mdc-filled-button-label-text-color: var(--color-on-action);
   --mat-filled-button-state-layer-color: var(--color-on-action);
+  // Material 3 defaults to a pill container. Match Tailwind's `rounded`
+  // (0.25rem) by default; callers wanting a different radius set
+  // --mdc-filled-button-container-shape via inline style or a modifier.
+  --mdc-filled-button-container-shape: 0.25rem;
 
   &:hover:not(:disabled) {
     --mdc-filled-button-container-color: var(--color-action-hover);
