@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/offer-ids';
+import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/pagination';
 import { Product } from '../../../../core/models/product.model';
 import { CartFeedbackService } from '../../../../core/services/cart-feedback.service';
 import { CartStoreService } from '../../../../core/services/cart-store.service';

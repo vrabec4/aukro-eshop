@@ -1,5 +1,5 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
-import { DEFAULT_PAGE_SIZE } from '../constants/offer-ids';
+import { DEFAULT_PAGE_SIZE } from '../constants/pagination';
 import { Product } from '../models/product.model';
 import { OffersApiService } from './offers-api.service';
 

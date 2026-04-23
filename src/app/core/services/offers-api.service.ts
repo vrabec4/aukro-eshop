@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import {
   AUKRO_SEARCH_ENDPOINT,
   CATEGORY_ID_FRUIT_VEG,
-} from '../constants/offer-ids';
+} from '../constants/aukro-api';
 import { PRODUCT_NAMES } from '../constants/i18n';
 import { Language } from '../models/language.model';
 import {
