@@ -1,0 +1,26 @@
+// Material 3 system-token retargets.
+//
+// The prebuilt @angular/material/prebuilt-themes/azure-blue.css loads as
+// the base theme (see angular.json > styles) and defines a full set of
+// --mat-sys-* tokens for Material components. Most of its colors are
+// already masked by our .btn-action / .btn-ghost / .btn-danger variants,
+// but a few places still fall back to the system palette — notably the
+// <mat-select> dropdown's selected-option background, which would
+// otherwise render in azure primary-container.
+//
+// Rather than replace the whole theme with mat.define-theme(), this
+// partial retargets the specific tokens our UI actually surfaces so
+// Material fallbacks pick up our slate-900 action color.
+
+:root {
+  --mat-sys-primary: var(--color-action);
+  --mat-sys-on-primary: var(--color-on-action);
+  --mat-sys-primary-container: var(--color-border);     // slate-200
+  --mat-sys-on-primary-container: var(--color-action);
+
+  // mat-select's selected option pulls its state layer from
+  // --mat-sys-secondary-container, not primary-container. Retarget so the
+  // highlight matches our palette instead of azure-blue's #dae2f9 tint.
+  --mat-sys-secondary-container: var(--color-border);
+  --mat-sys-on-secondary-container: var(--color-action);
+}
