@@ -11,71 +11,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
   standalone: true,
   imports: [MatButtonModule, PricePipe, TranslatePipe, UnitPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div
-      class="flex flex-col gap-4 py-5 text-sm text-slate-600 md:grid md:grid-cols-[minmax(0,2fr)_auto_auto] md:items-center md:gap-6 md:py-6 md:text-base"
-    >
-      <div class="flex min-w-0 items-start gap-3 md:gap-5">
-        <div
-          class="flex h-20 w-20 flex-none items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm sm:h-24 sm:w-24"
-        >
-          <img
-            [src]="line().product.images.thumb"
-            [alt]="localizedName()"
-            class="h-full w-full object-cover"
-            width="73"
-            height="73"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <div class="min-w-0">
-          <p class="text-base font-semibold text-slate-900 sm:truncate">
-            {{ localizedName() }}
-          </p>
-          <div class="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
-            <span class="rounded-full bg-slate-100 px-2.5 py-1">
-              {{ line().item.quantity }} {{ line().product.unit | unit }}
-            </span>
-            <span class="rounded-full bg-slate-100 px-2.5 py-1">
-              {{ perUnitCzk() | price }} / {{ line().product.unit | unit }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-1 md:contents md:border-t-0 md:pt-0">
-        <p class="text-lg font-semibold text-slate-900 md:text-right">
-          {{ line().lineTotalCzk | price }}
-        </p>
-
-        <button
-          mat-icon-button
-          type="button"
-          class="btn-danger rounded-full shadow-sm md:mx-auto"
-          [attr.aria-label]="'remove' | translate"
-          (click)="remove.emit()"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              d="m12.5 7.5-5 5m0-5 5 5m5.833-2.5a8.333 8.333 0 1 1-16.667 0 8.333 8.333 0 0 1 16.667 0"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-  `,
+  templateUrl: './cart-item-row.component.html',
 })
 export class CartItemRowComponent {
   private readonly settings = inject(SettingsStoreService);
