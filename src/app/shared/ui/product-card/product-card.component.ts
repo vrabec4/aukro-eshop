@@ -60,20 +60,21 @@ import { UnitPipe } from '../../pipes/unit.pipe';
 
         <div class="mt-auto flex flex-col gap-4">
           <div class="flex items-center gap-2">
-            <mat-form-field
-              class="no-chrome flex w-fit items-center gap-1 border border-slate-300 px-2 py-1 text-sm text-slate-700"
-              appearance="outline"
+            <div
+              class="flex w-fit items-center gap-1 border border-slate-300 px-2 py-1 text-sm text-slate-700"
             >
-              <input
-                matInput
-                type="number"
-                min="0"
-                [step]="step()"
-                [ngModel]="selectedAmount()"
-                (ngModelChange)="onAmountChange($event)"
-                class="w-14 bg-transparent text-right outline-none"
-                [attr.aria-label]="'amount'"
-              />
+              <mat-form-field class="no-chrome" appearance="outline">
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  [step]="step()"
+                  [ngModel]="selectedAmount()"
+                  (ngModelChange)="onAmountChange($event)"
+                  class="w-14 bg-transparent text-right outline-none"
+                  [attr.aria-label]="'amount'"
+                />
+              </mat-form-field>
               <span>{{ product().unit | unit }}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -89,13 +90,13 @@ import { UnitPipe } from '../../pipes/unit.pipe';
                 <path d="M12 20h9" />
                 <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
               </svg>
-            </mat-form-field>
+            </div>
           </div>
 
           <button
             mat-button
             type="button"
-            class="w-full cursor-pointer rounded !bg-slate-800 px-8 py-2 text-sm font-medium uppercase tracking-wide !text-white transition hover:!bg-slate-900 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
+            class="w-full cursor-pointer rounded !bg-slate-800 !px-8 !py-2 text-sm font-medium uppercase tracking-wide !text-white transition hover:!bg-slate-900 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
             [disabled]="selectedAmount() <= 0"
             (click)="addToCart.emit(selectedAmount())"
           >

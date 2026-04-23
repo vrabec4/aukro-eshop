@@ -71,9 +71,9 @@ import { ProductCardComponent } from '../../../shared/ui/product-card/product-ca
             class="mt-10 flex flex-wrap items-center justify-center gap-2"
           >
             <button
-              mat-stroked-button
+              mat-button
               type="button"
-              class="inline-flex h-10 items-center rounded-full border border-slate-200 !bg-white px-4 text-sm font-medium !text-slate-700 shadow-sm transition hover:!bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              class="inline-flex h-10 items-center rounded-full border border-slate-200 !bg-white !px-4 text-sm font-medium !text-slate-700 shadow-sm transition hover:!bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
               [disabled]="page() === 0"
               (click)="onPageChange(page() - 1)"
             >
@@ -84,7 +84,7 @@ import { ProductCardComponent } from '../../../shared/ui/product-card/product-ca
               <button
                 mat-button
                 type="button"
-                class="h-10 min-w-10 rounded-full px-3 text-sm font-medium transition"
+                class="h-10 !min-w-10 rounded-full !px-3 text-sm font-medium transition"
                 [class.!bg-indigo-600]="n === page()"
                 [class.!text-white]="n === page()"
                 [class.shadow-md]="n === page()"
@@ -100,9 +100,9 @@ import { ProductCardComponent } from '../../../shared/ui/product-card/product-ca
             }
 
             <button
-              mat-stroked-button
+              mat-button
               type="button"
-              class="inline-flex h-10 items-center rounded-full border border-slate-200 !bg-white px-4 text-sm font-medium !text-slate-700 shadow-sm transition hover:!bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              class="inline-flex h-10 items-center rounded-full border border-slate-200 !bg-white !px-4 text-sm font-medium !text-slate-700 shadow-sm transition hover:!bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
               [disabled]="page() >= totalPages() - 1"
               (click)="onPageChange(page() + 1)"
             >

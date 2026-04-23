@@ -47,7 +47,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
         <button
           mat-button
           type="button"
-          class="w-full rounded-2xl !bg-slate-900 px-4 py-3.5 text-sm font-semibold !text-white transition hover:!bg-slate-800"
+          class="w-full rounded-2xl !bg-slate-900 !px-4 !py-3.5 text-sm font-semibold !text-white transition hover:!bg-slate-800"
         >
           {{ 'placeOrder' | translate }}
         </button>

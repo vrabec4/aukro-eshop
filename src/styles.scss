@@ -1,56 +1,47 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // --- Angular Material neutralizers ---------------------------------------
-// Goal: let Tailwind classes define the look while Material directives
-// (mat-button, matInput, mat-select, mat-icon-button) provide behavior —
-// ripples, focus/ARIA, select panel.
+// Keep Material's behavior (ripple, a11y, focus ring, select panel) but let
+// Tailwind classes drive sizing and colors where we paint custom chrome.
+// Rules use !important to beat Material's compound selectors (hover,
+// disabled, etc.). Tailwind utilities that collide use the `!` prefix and
+// load last (@tailwind utilities at the bottom) so they win the tie.
 
-// All buttons: drop min-width, default letter-spacing, and inherit the
-// font from Tailwind so h-10/text-sm/uppercase still win.
 .mat-mdc-button-base {
-  min-width: 0 !important;
   letter-spacing: normal !important;
   font: inherit !important;
 }
 
-// mat-button / mat-stroked-button: zero Material padding so Tailwind
-// px-*/py-* drives the box. Internal label also loses its extra padding.
 .mat-mdc-button,
-.mat-mdc-outlined-button {
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button {
+  min-width: 0 !important;
   padding: 0 !important;
 }
 .mat-mdc-button .mdc-button__label,
-.mat-mdc-outlined-button .mdc-button__label {
-  padding: 0;
+.mat-mdc-outlined-button .mdc-button__label,
+.mat-mdc-unelevated-button .mdc-button__label {
+  padding: 0 !important;
   width: 100%;
 }
 
-// Stroked button: we provide our own border via Tailwind, hide MDC's.
-.mat-mdc-outlined-button {
-  --mdc-outlined-button-outline-color: transparent !important;
-  --mdc-outlined-button-outline-width: 0 !important;
-  --mdc-outlined-button-container-shape: 0 !important;
-}
-
-// Icon button: collapse the circular state-layer so Tailwind h-11 w-11 wins.
 .mat-mdc-icon-button.mat-mdc-button-base {
   --mdc-icon-button-state-layer-size: 0;
   padding: 0 !important;
   width: auto;
   height: auto;
+  min-width: 0 !important;
 }
 
-// Hover/ripple color inherits from the button text color rather than the
-// azure-blue theme primary, so the overlay stays visually consistent.
+// Ripple overlay colors → follow the button's own text color.
 .mat-mdc-button-persistent-ripple::before { background-color: currentColor !important; }
 
-// Form field: hide the subscript (hint/error) wrapper and let callers opt
-// into a bare-input / bare-select look with `.no-chrome`.
+// Form field: hide subscript globally. `.no-chrome` strips the wrapper so
+// the field collapses to a bare input/select.
 .mat-mdc-form-field-subscript-wrapper { display: none !important; }
 .mat-mdc-form-field.no-chrome {
   display: inline-flex;
@@ -64,3 +55,5 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .mat-mdc-select-arrow-wrapper { padding: 0 0 0 0.5rem !important; }
   .mat-mdc-select-trigger { padding: 0 !important; }
 }
+
+@tailwind utilities;
