@@ -7,10 +7,12 @@
     >
       <img
         [src]="line().product.images.thumb"
+        [srcset]="thumbSrcset()"
+        sizes="(min-width: 640px) 96px, 80px"
         [alt]="localizedName()"
         class="h-full w-full object-cover"
-        width="73"
-        height="73"
+        width="96"
+        height="96"
         loading="lazy"
         decoding="async"
       />

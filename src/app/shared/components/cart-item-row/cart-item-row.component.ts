@@ -23,4 +23,13 @@ export class CartItemRowComponent {
     const p = this.line().product;
     return p.quantity > 0 ? p.basePriceCzk / p.quantity : p.basePriceCzk;
   });
+
+  // Let the browser pick between the 73×73 thumb and the 400×300 card
+  // based on DPR. On a 2× retina display the 96×96 slot needs ~192
+  // physical pixels — the thumb alone blurs heavily.
+  readonly thumbSrcset = computed(() => {
+    const { thumb, card } = this.line().product.images;
+    if (!thumb) return null;
+    return card && card !== thumb ? `${thumb} 73w, ${card} 400w` : null;
+  });
 }
