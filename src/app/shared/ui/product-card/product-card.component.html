@@ -47,7 +47,7 @@
               [ngModel]="selectedAmount()"
               (ngModelChange)="onAmountChange($event)"
               class="w-14 bg-transparent text-right outline-none"
-              [attr.aria-label]="'amount'"
+              [attr.aria-label]="'amount' | translate"
             />
           </mat-form-field>
           <span>{{ product().unit | unit }}</span>

@@ -25,7 +25,8 @@ export type UiKey =
   | 'summaryHint'
   | 'previous'
   | 'next'
-  | 'perPage';
+  | 'perPage'
+  | 'amount';
 
 export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
   cs: {
@@ -53,6 +54,7 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     previous: 'Předchozí',
     next: 'Další',
     perPage: 'Na stránku',
+    amount: 'Množství',
   },
   sk: {
     shopList: 'Zoznam produktov',
@@ -79,6 +81,7 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     previous: 'Predchádzajúca',
     next: 'Ďalšia',
     perPage: 'Na stránku',
+    amount: 'Množstvo',
   },
   en: {
     shopList: 'Shop list',
@@ -105,6 +108,7 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     previous: 'Previous',
     next: 'Next',
     perPage: 'Per page',
+    amount: 'Quantity',
   },
 };
 
