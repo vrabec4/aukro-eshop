@@ -12,28 +12,40 @@
     ← {{ 'previous' | translate }}
   </button>
 
-  @for (n of pageNumbers(); track n) {
-    @if (n === page()) {
-      <button
-        mat-flat-button
-        type="button"
-        class="btn-action btn-action--pill h-10 min-w-10 px-3 shadow-md transition"
-        aria-current="page"
-        (click)="onPage(n)"
-      >
-        {{ n + 1 }}
-      </button>
-    } @else {
-      <button
-        mat-stroked-button
-        type="button"
-        class="btn-ghost btn-ghost--pill h-10 min-w-10 px-3 transition"
-        (click)="onPage(n)"
-      >
-        {{ n + 1 }}
-      </button>
+  <!-- Mobile: compact "X / Y" counter. Avoids 7 buttons wrapping to 3 rows. -->
+  <span
+    aria-live="polite"
+    class="px-3 text-sm font-medium tabular-nums text-slate-600 sm:hidden"
+  >
+    {{ page() + 1 }} / {{ totalPages() }}
+  </span>
+
+  <!-- sm and up: full numbered buttons. display:contents makes the wrapper
+       transparent to the parent flex so buttons flow inline. -->
+  <div class="hidden sm:contents">
+    @for (n of pageNumbers(); track n) {
+      @if (n === page()) {
+        <button
+          mat-flat-button
+          type="button"
+          class="btn-action btn-action--pill h-10 min-w-10 px-3 shadow-md transition"
+          aria-current="page"
+          (click)="onPage(n)"
+        >
+          {{ n + 1 }}
+        </button>
+      } @else {
+        <button
+          mat-stroked-button
+          type="button"
+          class="btn-ghost btn-ghost--pill h-10 min-w-10 px-3 transition"
+          (click)="onPage(n)"
+        >
+          {{ n + 1 }}
+        </button>
+      }
     }
-  }
+  </div>
 
   <button
     mat-stroked-button
