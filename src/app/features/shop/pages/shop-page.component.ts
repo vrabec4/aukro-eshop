@@ -27,7 +27,7 @@ import { ProductCardComponent } from '../../../shared/ui/product-card/product-ca
       <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
         <h1 class="text-3xl font-medium text-slate-800">
           {{ 'shopTitle' | translate }}
-          <span class="ml-2 text-sm text-indigo-500">
+          <span class="ml-2 text-sm text-emerald-600">
             {{ totalElements() }} {{ 'itemsSuffix' | translate }}
           </span>
         </h1>

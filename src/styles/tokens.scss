@@ -20,4 +20,14 @@
   --color-danger-bg: #fef2f2;       // red-50
   --color-danger-border: #fecaca;   // red-200
   --color-danger-ring: #fca5a5;     // red-300
+
+  // Accent (emerald) — secondary highlights, pills, back-links,
+  // focus rings. Pairs with slate-900 action (forest + night sky).
+  --color-accent: #059669;           // emerald-600
+  --color-accent-hover: #047857;     // emerald-700
+  --color-accent-bg: #ecfdf5;        // emerald-50
+  --color-accent-bg-hover: #d1fae5;  // emerald-100
+  --color-accent-border: #a7f3d0;    // emerald-200
+  --color-accent-border-hover: #6ee7b7; // emerald-300
+  --color-accent-ring: #a7f3d0;      // emerald-200
 }

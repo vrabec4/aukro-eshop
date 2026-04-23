@@ -41,7 +41,7 @@ const CURRENCY_FLAG: Record<Currency, string> = {
       <div class="relative">
         <button
           type="button"
-          class="flex h-10 cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="flex h-10 cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-200"
           (click)="toggleLang()"
           [attr.aria-expanded]="langOpen()"
           aria-haspopup="listbox"
@@ -98,7 +98,7 @@ const CURRENCY_FLAG: Record<Currency, string> = {
       <div class="relative">
         <button
           type="button"
-          class="flex h-10 cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          class="flex h-10 cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-200"
           (click)="toggleCur()"
           [attr.aria-expanded]="curOpen()"
           aria-haspopup="listbox"

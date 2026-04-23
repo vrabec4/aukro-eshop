@@ -14,7 +14,7 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
     <section class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
       <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-500">
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-600">
             {{ 'basket' | translate }}
           </p>
           <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
@@ -22,7 +22,7 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
           </h1>
         </div>
         <span
-          class="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700"
+          class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700"
         >
           {{ count() }}
           <span class="ml-1">{{ 'itemsSuffix' | translate }}</span>
@@ -36,10 +36,10 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
           <p class="text-base text-slate-500">{{ 'emptyCart' | translate }}</p>
           <a
             routerLink="/shop"
-            class="mt-5 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100"
+            class="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-100"
           >
             <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M14.09 5.5H1M6.143 10 1 5.5 6.143 1" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M14.09 5.5H1M6.143 10 1 5.5 6.143 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             {{ 'shopList' | translate }}
           </a>
@@ -70,10 +70,10 @@ import { CartSummaryComponent } from '../../../shared/ui/cart-summary/cart-summa
 
             <a
               routerLink="/shop"
-              class="group mt-6 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-semibold text-indigo-600 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50"
+              class="group mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-sm font-semibold text-emerald-600 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50"
             >
               <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M14.09 5.5H1M6.143 10 1 5.5 6.143 1" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.09 5.5H1M6.143 10 1 5.5 6.143 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               {{ 'shopList' | translate }}
             </a>
