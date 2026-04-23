@@ -28,8 +28,9 @@ import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher
         <nav class="flex items-center gap-2" aria-label="Primary">
           <a
             mat-stroked-button
+            class="btn-ghost btn-ghost--pill"
             routerLink="/shop"
-            routerLinkActive="!bg-indigo-600 !text-white"
+            routerLinkActive="btn-ghost--active"
             [routerLinkActiveOptions]="{ exact: true }"
           >
             {{ 'shopList' | translate }}

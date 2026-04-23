@@ -28,13 +28,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 100%;
 }
 
-// Icon button: collapse the circular state-layer box so Tailwind h-/w-
-// classes drive the hit area.
+// Icon button: collapse the circular state-layer box so the .btn-danger
+// variant (or any Tailwind h-/w- on an mat-icon-button) drives the hit
+// area. width/height come from .btn-danger itself.
 .mat-mdc-icon-button.mat-mdc-button-base {
   --mdc-icon-button-state-layer-size: 0;
   padding: 0 !important;
-  width: auto;
-  height: auto;
   min-width: 0 !important;
 }
 

@@ -52,7 +52,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
         <button
           mat-icon-button
           type="button"
-          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-300 md:mx-auto"
+          class="btn-danger rounded-full shadow-sm md:mx-auto"
           [attr.aria-label]="'remove' | translate"
           (click)="remove.emit()"
         >

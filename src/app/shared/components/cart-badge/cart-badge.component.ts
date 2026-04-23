@@ -11,8 +11,9 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
   template: `
     <a
       mat-stroked-button
+      class="btn-ghost btn-ghost--pill"
       routerLink="/cart"
-      routerLinkActive="!bg-indigo-600 !text-white"
+      routerLinkActive="btn-ghost--active"
       [attr.aria-label]="'openBasket' | translate"
     >
       {{ 'basket' | translate }} ({{ count() }})

@@ -70,8 +70,26 @@
   --mdc-outlined-button-container-shape: 9999px;
 }
 
-.btn-danger {
+// Active state for ghost buttons — used on navigation links with
+// routerLinkActive, fills the outlined button with the action palette
+// so navigation "here" matches the shared slate-900 family.
+.btn-ghost--active.mat-mdc-outlined-button {
+  --mdc-outlined-button-outline-color: var(--color-action);
+  --mdc-outlined-button-label-text-color: var(--color-on-action);
+  background-color: var(--color-action);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-action-hover);
+  }
+}
+
+// Compound selector lifts specificity above Material's inline
+// .mat-mdc-icon-button rule, which otherwise forces transparent bg,
+// no border, and a state-layer-driven size.
+.btn-danger.mat-mdc-icon-button {
   --mdc-icon-button-icon-color: var(--color-danger-icon);
+  width: 2.75rem;   // h-11 / w-11 — Tailwind utility can't beat Material here
+  height: 2.75rem;
   border: 1px solid var(--color-border);
   background-color: var(--color-surface);
   transition: color 120ms, background-color 120ms, border-color 120ms;
