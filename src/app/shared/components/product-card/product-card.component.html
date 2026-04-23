@@ -8,7 +8,7 @@
       [src]="product().images.card || fallbackImage"
       [srcset]="cardSrcset()"
       sizes="(min-width: 768px) 42vw, 100vw"
-      [alt]="localizedName()"
+      [alt]="product().name | localizedName"
       class="absolute inset-0 h-full w-full object-cover object-center"
       width="400"
       height="300"
@@ -21,16 +21,16 @@
   <div class="flex flex-1 flex-col gap-4 p-5">
     <div class="flex items-start justify-between gap-3">
       <h3 class="line-clamp-2 text-lg font-medium text-slate-800">
-        {{ localizedName() }}
+        {{ product().name | localizedName }}
       </h3>
     </div>
 
     <p class="text-sm text-slate-500">
-      {{ settings.price(pricePerUnitCzk()) }} / {{ settings.unit(product().unit) }}
+      {{ pricePerUnitCzk() | price }} / {{ product().unit | unit }}
     </p>
 
     <p class="text-xl font-medium text-slate-800">
-      {{ settings.price(lineTotalCzk()) }}
+      {{ lineTotalCzk() | price }}
     </p>
 
     <div class="mt-auto flex flex-col gap-4">
@@ -68,7 +68,7 @@
           [attr.aria-label]="'amount' | translate"
         />
 
-        <span class="pr-2 text-slate-500">{{ settings.unit(product().unit) }}</span>
+        <span class="pr-2 text-slate-500">{{ product().unit | unit }}</span>
 
         <button
           type="button"

@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, linkedSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { Product } from '../../../core/models/product.model';
-import { SettingsStore } from '../../../core/services/settings-store.service';
+import { LocalizedNamePipe } from '../../pipes/localized-name.pipe';
+import { PricePipe } from '../../pipes/price.pipe';
+import { UnitPipe } from '../../pipes/unit.pipe';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [FormsModule, MatButtonModule, TranslateModule],
+  imports: [FormsModule, MatButtonModule, TranslateModule, LocalizedNamePipe, PricePipe, UnitPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './product-card.component.html',
 })
 export class ProductCardComponent {
-  protected readonly settings = inject(SettingsStore);
-
   readonly product = input.required<Product>();
   readonly addToCart = output<number>();
 
@@ -22,10 +22,6 @@ export class ProductCardComponent {
   // product input changes, but user edits (stepper / typing in the input)
   // take precedence until the product next changes.
   protected readonly selectedAmount = linkedSignal(() => this.product().quantity);
-
-  readonly localizedName = computed(
-    () => this.product().name[this.settings.language()],
-  );
 
   readonly pricePerUnitCzk = computed(() => {
     const p = this.product();

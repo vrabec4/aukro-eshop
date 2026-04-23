@@ -1,24 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { CartLine } from '../../../core/services/cart-store.service';
-import { SettingsStore } from '../../../core/services/settings-store.service';
+import { LocalizedNamePipe } from '../../pipes/localized-name.pipe';
+import { PricePipe } from '../../pipes/price.pipe';
+import { UnitPipe } from '../../pipes/unit.pipe';
 
 @Component({
   selector: 'app-cart-item-row',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [TranslateModule, LocalizedNamePipe, PricePipe, UnitPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cart-item-row.component.html',
 })
 export class CartItemRowComponent {
-  protected readonly settings = inject(SettingsStore);
-
   readonly line = input.required<CartLine>();
   readonly remove = output<void>();
-
-  readonly localizedName = computed(
-    () => this.line().product.name[this.settings.language()],
-  );
 
   readonly perUnitCzk = computed(() => {
     const p = this.line().product;

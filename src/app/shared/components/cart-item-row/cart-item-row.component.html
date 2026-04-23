@@ -9,7 +9,7 @@
         [src]="line().product.images.thumb"
         [srcset]="thumbSrcset()"
         sizes="(min-width: 640px) 96px, 80px"
-        [alt]="localizedName()"
+        [alt]="line().product.name | localizedName"
         class="h-full w-full object-cover"
         width="96"
         height="96"
@@ -19,14 +19,14 @@
     </div>
     <div class="min-w-0">
       <p class="text-base font-semibold text-slate-900 sm:truncate">
-        {{ localizedName() }}
+        {{ line().product.name | localizedName }}
       </p>
       <div class="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
         <span class="rounded-full bg-slate-100 px-2.5 py-1">
-          {{ line().item.quantity }} {{ settings.unit(line().product.unit) }}
+          {{ line().item.quantity }} {{ line().product.unit | unit }}
         </span>
         <span class="rounded-full bg-slate-100 px-2.5 py-1">
-          {{ settings.price(perUnitCzk()) }} / {{ settings.unit(line().product.unit) }}
+          {{ perUnitCzk() | price }} / {{ line().product.unit | unit }}
         </span>
       </div>
     </div>
@@ -34,7 +34,7 @@
 
   <div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-1 md:contents md:border-t-0 md:pt-0">
     <p class="text-lg font-semibold text-slate-900 md:text-right">
-      {{ settings.price(line().lineTotalCzk) }}
+      {{ line().lineTotalCzk | price }}
     </p>
 
     <button

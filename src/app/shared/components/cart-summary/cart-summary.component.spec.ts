@@ -33,5 +33,8 @@ describe('CartSummaryComponent', () => {
     expect(text).toContain('Doprava');
     expect(text).toContain('DPH');
     expect(text).toContain('Celkem');
+    // PricePipe should render the CZK total in cs-CZ form (narrow-no-break
+    // space + "Kč" suffix). Catches the impure-pipe wiring silently regressing.
+    expect(text).toMatch(/230,20\s?Kč/);
   });
 });
