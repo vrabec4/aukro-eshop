@@ -5,9 +5,9 @@ import { CartFeedbackService } from '../../../../core/services/cart-feedback.ser
 import { CartStoreService } from '../../../../core/services/cart-store.service';
 import { CatalogService } from '../../../../core/services/catalog.service';
 import { SettingsStoreService } from '../../../../core/services/settings-store.service';
-import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
-import { ProductCardSkeletonComponent } from '../../../../shared/ui/product-card-skeleton/product-card-skeleton.component';
-import { ProductCardComponent } from '../../../../shared/ui/product-card/product-card.component';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
+import { ProductCardSkeletonComponent } from '../../../../shared/components/product-card-skeleton/product-card-skeleton.component';
+import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
 
 @Component({
   selector: 'app-shop-page',

@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartStoreService } from '../../../../core/services/cart-store.service';
 import { SettingsStoreService } from '../../../../core/services/settings-store.service';
-import { CartItemRowComponent } from '../../../../shared/ui/cart-item-row/cart-item-row.component';
-import { CartSummaryComponent } from '../../../../shared/ui/cart-summary/cart-summary.component';
+import { CartItemRowComponent } from '../../../../shared/components/cart-item-row/cart-item-row.component';
+import { CartSummaryComponent } from '../../../../shared/components/cart-summary/cart-summary.component';
 
 @Component({
   selector: 'app-cart-page',
