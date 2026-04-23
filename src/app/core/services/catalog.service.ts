@@ -1,7 +1,13 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { DEFAULT_PAGE_SIZE } from '../constants/offer-ids';
 import { Product } from '../models/product.model';
 import { OffersApiService } from './offers-api.service';
+
+interface CachedPage {
+  products: Product[];
+  totalPages: number;
+  totalElements: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
@@ -23,11 +29,13 @@ export class CatalogService {
 
   private requestId = 0;
 
-  readonly byId = computed(() => {
-    const map = new Map<string, Product>();
-    for (const product of this._products()) map.set(product.id, product);
-    return map;
-  });
+  // Cache of pages keyed by `${page}:${size}`. Re-visiting a page within
+  // the session is served instantly from memory instead of re-fetching.
+  private readonly cache = new Map<string, CachedPage>();
+
+  // Cumulative map of every product fetched this session. Lets the cart
+  // resolve a product by id even after the user has paged past it.
+  private readonly fetchedProducts = new Map<string, Product>();
 
   constructor() {
     effect(() => {
@@ -38,7 +46,7 @@ export class CatalogService {
   }
 
   productById(id: string): Product | undefined {
-    return this.byId().get(id);
+    return this.fetchedProducts.get(id);
   }
 
   setPage(page: number): void {
@@ -56,14 +64,32 @@ export class CatalogService {
   }
 
   private load(page: number, size: number): void {
-    this._loading.set(true);
+    // Bump requestId on every load so any in-flight fetch for a
+    // previous page is ignored on resolve, even when the new load is
+    // served from cache (otherwise a slow prior fetch can overwrite
+    // the cache-hit state).
     const myId = ++this.requestId;
+    const key = `${page}:${size}`;
+    const cached = this.cache.get(key);
+    if (cached) {
+      this.apply(cached);
+      return;
+    }
+    this._loading.set(true);
     this.offersApi.fetchPage(page, size).subscribe((result) => {
       if (myId !== this.requestId) return;
-      this._products.set(result.products);
-      this._totalPages.set(result.totalPages);
-      this._totalElements.set(result.totalElements);
-      this._loading.set(false);
+      this.cache.set(key, result);
+      for (const product of result.products) {
+        this.fetchedProducts.set(product.id, product);
+      }
+      this.apply(result);
     });
+  }
+
+  private apply(page: CachedPage): void {
+    this._products.set(page.products);
+    this._totalPages.set(page.totalPages);
+    this._totalElements.set(page.totalElements);
+    this._loading.set(false);
   }
 }
