@@ -5,30 +5,29 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // --- Angular Material neutralizers ---------------------------------------
-// Keep Material's behavior (ripple, a11y, focus ring, select panel) but let
-// Tailwind classes drive sizing and colors where we paint custom chrome.
-// Rules use !important to beat Material's compound selectors (hover,
-// disabled, etc.). Tailwind utilities that collide use the `!` prefix and
-// load last (@tailwind utilities at the bottom) so they win the tie.
+// Keep Material's behavior but let Tailwind classes drive sizing and
+// colors on buttons that paint their own chrome. These rules sit between
+// @tailwind components and @tailwind utilities so !-prefixed utilities
+// (!px-3, !min-w-10, !bg-slate-800) load last and win ties.
+//
+// We deliberately do NOT force padding/min-width here — Material's
+// defaults are fine for buttons that don't set explicit Tailwind sizing
+// (e.g. the header nav buttons). Tailwind classes with `!` beat these
+// defaults wherever we do want custom sizing.
 
 .mat-mdc-button-base {
   letter-spacing: normal !important;
   font: inherit !important;
 }
 
-.mat-mdc-button,
-.mat-mdc-outlined-button,
-.mat-mdc-unelevated-button {
-  min-width: 0 !important;
-  padding: 0 !important;
-}
 .mat-mdc-button .mdc-button__label,
 .mat-mdc-outlined-button .mdc-button__label,
 .mat-mdc-unelevated-button .mdc-button__label {
-  padding: 0 !important;
   width: 100%;
 }
 
+// Icon button: collapse the circular state-layer box so Tailwind h-/w-
+// classes drive the hit area.
 .mat-mdc-icon-button.mat-mdc-button-base {
   --mdc-icon-button-state-layer-size: 0;
   padding: 0 !important;
