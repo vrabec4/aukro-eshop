@@ -7,7 +7,7 @@
       </span>
     </h1>
 
-    <label class="flex items-center gap-2 text-sm text-slate-600">
+    <div class="flex items-center gap-2 text-sm text-slate-600">
       <span>{{ 'perPage' | translate }}</span>
       <mat-form-field
         class="no-chrome cursor-pointer rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm"
@@ -16,6 +16,7 @@
         <mat-select
           [value]="pageSize()"
           (valueChange)="onPageSizeChange($event)"
+          [aria-label]="'perPage' | translate"
           panelClass="rounded-xl"
         >
           @for (opt of pageSizeOptions; track opt) {
@@ -23,7 +24,7 @@
           }
         </mat-select>
       </mat-form-field>
-    </label>
+    </div>
   </div>
 
   @if (loading()) {
