@@ -10,13 +10,14 @@
     <div class="flex items-center gap-2 text-sm text-slate-600">
       <span>{{ 'perPage' | translate }}</span>
       <mat-form-field
-        class="no-chrome cursor-pointer rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm"
+        class="no-chrome cursor-pointer rounded-full border border-slate-200 bg-white text-sm font-medium text-slate-700 shadow-sm"
         appearance="outline"
       >
         <mat-select
           [value]="pageSize()"
           (valueChange)="onPageSizeChange($event)"
           [aria-label]="'perPage' | translate"
+          hideSingleSelectionIndicator
         >
           @for (opt of pageSizeOptions; track opt) {
             <mat-option [value]="opt">{{ opt }}</mat-option>

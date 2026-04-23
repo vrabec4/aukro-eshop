@@ -48,13 +48,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   display: inline-flex;
   align-items: center;
   width: auto;
-  .mat-mdc-text-field-wrapper { padding: 0 !important; background: transparent !important; }
+  .mat-mdc-text-field-wrapper { padding: 0 !important; background: transparent !important; flex: 1 1 100% !important; }
   .mdc-notched-outline { display: none !important; }
-  .mat-mdc-form-field-infix { padding: 0 !important; min-height: 0 !important; width: auto !important; }
-  .mat-mdc-form-field-flex { padding: 0 !important; }
+  .mat-mdc-form-field-infix { padding: 0 !important; min-height: 0 !important; width: 100% !important; }
+  .mat-mdc-form-field-flex { padding: 0 !important; width: 100% !important; }
   .mdc-line-ripple { display: none !important; }
   .mat-mdc-select-arrow-wrapper { padding: 0 0 0 0.5rem !important; }
-  .mat-mdc-select-trigger { padding: 0 !important; }
+  // Visual padding lives on the trigger (not on the form-field wrapper)
+  // so the mat-select's measurable width matches the pill chrome's
+  // visible width — otherwise Material anchors the dropdown to the
+  // narrower inner trigger and the panel floats offset inside the pill.
+  .mat-mdc-select-trigger { padding: 0.375rem 0.75rem !important; width: 100% !important; }
+  // Stretch the inner mat-select so its edges match the pill chrome on
+  // the form-field wrapper. Without this, Material anchors the dropdown
+  // to the narrower inner trigger, making the overlay appear offset
+  // inside the wider pill.
+  .mat-mdc-select { width: 100% !important; }
 }
 
 @tailwind utilities;
