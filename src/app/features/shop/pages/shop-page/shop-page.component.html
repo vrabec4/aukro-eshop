@@ -7,33 +7,56 @@
       </span>
     </h1>
 
-    <label class="flex items-center gap-2 text-sm text-slate-600">
-      <span>{{ settings.t('perPage') }}</span>
-      <span class="relative inline-block">
-        <select
-          class="cursor-pointer appearance-none rounded-full border border-slate-200 bg-white py-1.5 pl-4 pr-9 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
-          [value]="pageSize()"
-          (change)="onPageSizeChange(+$any($event.target).value)"
+    <div class="flex items-center gap-2 text-sm text-slate-600">
+      <span id="per-page-label">{{ settings.t('perPage') }}</span>
+      <div class="relative" #pageSizePicker>
+        <button
+          type="button"
+          class="flex h-10 cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200"
+          (click)="togglePageSize()"
+          [attr.aria-expanded]="pageSizeOpen()"
+          aria-haspopup="listbox"
+          aria-labelledby="per-page-label"
         >
-          @for (opt of pageSizeOptions; track opt) {
-            <option [value]="opt">{{ opt }}</option>
-          }
-        </select>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </span>
-    </label>
+          <span class="tabular-nums">{{ pageSize() }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="h-4 w-4 text-slate-400 transition"
+            [class.rotate-180]="pageSizeOpen()"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+
+        @if (pageSizeOpen()) {
+          <div
+            role="listbox"
+            aria-labelledby="per-page-label"
+            class="absolute right-0 z-20 mt-2 w-max min-w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-gray-200 bg-white py-1 shadow-lg"
+          >
+            @for (opt of pageSizeOptions; track opt) {
+              <button
+                type="button"
+                role="option"
+                [attr.aria-selected]="opt === pageSize()"
+                (click)="onPageSizeChange(opt)"
+                class="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-left text-sm tabular-nums text-slate-700 transition hover:bg-gray-100"
+                [class.bg-gray-100]="opt === pageSize()"
+              >
+                {{ opt }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
   </div>
 
   @if (error()) {

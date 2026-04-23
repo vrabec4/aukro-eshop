@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/pagination';
 import { Product } from '../../../../core/models/product.model';
 import { CartFeedbackService } from '../../../../core/services/cart-feedback.service';
@@ -39,6 +48,14 @@ export class ShopPageComponent {
   protected readonly skeletonSlots = computed(() =>
     Array.from({ length: this.pageSize() }, (_, i) => i),
   );
+  // Popup state for the per-page picker — mirrors the lang/currency
+  // switcher so both controls in the header have the same open/close
+  // behavior (click toggle, Escape to close, click-outside to close).
+  protected readonly pageSizeOpen = signal(false);
+  // Ref to the picker wrapper (trigger + popup) so click-outside
+  // detection is scoped to this element — not the entire page host,
+  // which would include the product grid and never fire "outside".
+  private readonly pageSizePickerRef = viewChild.required<ElementRef<HTMLElement>>('pageSizePicker');
 
   protected onAddToCart(product: Product, amount: number): void {
     this.cart.add(product, amount);
@@ -51,9 +68,28 @@ export class ShopPageComponent {
 
   protected onPageSizeChange(size: number): void {
     this.catalog.setPageSize(size);
+    this.pageSizeOpen.set(false);
+  }
+
+  protected togglePageSize(): void {
+    this.pageSizeOpen.update((v) => !v);
   }
 
   protected onRetry(): void {
     this.catalog.retry();
+  }
+
+  @HostListener('document:click', ['$event'])
+  protected onDocumentClick(event: MouseEvent): void {
+    if (!this.pageSizeOpen()) return;
+    const picker = this.pageSizePickerRef().nativeElement;
+    if (!picker.contains(event.target as Node)) {
+      this.pageSizeOpen.set(false);
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  protected onEscape(): void {
+    this.pageSizeOpen.set(false);
   }
 }
