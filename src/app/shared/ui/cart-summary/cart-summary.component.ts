@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { PricePipe } from '../../pipes/price.pipe';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-cart-summary',
   standalone: true,
-  imports: [PricePipe, TranslatePipe],
+  imports: [MatButtonModule, PricePipe, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <aside
@@ -44,8 +45,9 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
         </div>
 
         <button
+          mat-button
           type="button"
-          class="w-full rounded-2xl bg-slate-900 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+          class="w-full rounded-2xl !bg-slate-900 px-4 py-3.5 text-sm font-semibold !text-white transition hover:!bg-slate-800"
         >
           {{ 'placeOrder' | translate }}
         </button>

@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Product } from '../../../core/models/product.model';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { PricePipe } from '../../pipes/price.pipe';
@@ -9,7 +12,15 @@ import { UnitPipe } from '../../pipes/unit.pipe';
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [FormsModule, PricePipe, TranslatePipe, UnitPipe],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    PricePipe,
+    TranslatePipe,
+    UnitPipe,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article
@@ -49,10 +60,12 @@ import { UnitPipe } from '../../pipes/unit.pipe';
 
         <div class="mt-auto flex flex-col gap-4">
           <div class="flex items-center gap-2">
-            <div
-              class="flex w-fit items-center gap-1 border border-slate-300 px-2 py-1 text-sm text-slate-700"
+            <mat-form-field
+              class="no-chrome flex w-fit items-center gap-1 border border-slate-300 px-2 py-1 text-sm text-slate-700"
+              appearance="outline"
             >
               <input
+                matInput
                 type="number"
                 min="0"
                 [step]="step()"
@@ -76,12 +89,13 @@ import { UnitPipe } from '../../pipes/unit.pipe';
                 <path d="M12 20h9" />
                 <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
               </svg>
-            </div>
+            </mat-form-field>
           </div>
 
           <button
+            mat-button
             type="button"
-            class="w-full cursor-pointer rounded bg-slate-800 px-8 py-2 text-sm font-medium uppercase tracking-wide text-white transition hover:bg-slate-900 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
+            class="w-full cursor-pointer rounded !bg-slate-800 px-8 py-2 text-sm font-medium uppercase tracking-wide !text-white transition hover:!bg-slate-900 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
             [disabled]="selectedAmount() <= 0"
             (click)="addToCart.emit(selectedAmount())"
           >

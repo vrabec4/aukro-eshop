@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { CartLine } from '../../../core/services/cart-store.service';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { PricePipe } from '../../pipes/price.pipe';
@@ -8,7 +9,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
 @Component({
   selector: 'app-cart-item-row',
   standalone: true,
-  imports: [PricePipe, TranslatePipe, UnitPipe],
+  imports: [MatButtonModule, PricePipe, TranslatePipe, UnitPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -49,6 +50,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
         </p>
 
         <button
+          mat-icon-button
           type="button"
           class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-300 md:mx-auto"
           [attr.aria-label]="'remove' | translate"
