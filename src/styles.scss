@@ -19,8 +19,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // defaults wherever we do want custom sizing.
 
 .mat-mdc-button-base {
-  letter-spacing: normal !important;
-  font: inherit !important;
+  font-family: inherit;
 }
 
 .mat-mdc-button .mdc-button__label,

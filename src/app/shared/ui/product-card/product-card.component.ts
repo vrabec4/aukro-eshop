@@ -96,7 +96,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
           <button
             mat-flat-button
             type="button"
-            class="btn-action w-full cursor-pointer rounded px-8 py-2 text-sm font-medium uppercase tracking-wide transition hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
+            class="btn-action btn-action--cta w-full cursor-pointer rounded px-8 py-2 transition hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
             [disabled]="selectedAmount() <= 0"
             (click)="addToCart.emit(selectedAmount())"
           >

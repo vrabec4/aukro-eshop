@@ -12,13 +12,32 @@
   --mdc-filled-button-label-text-color: var(--color-on-action);
   --mat-filled-button-state-layer-color: var(--color-on-action);
   // Material 3 defaults to a pill container. Match Tailwind's `rounded`
-  // (0.25rem) by default; callers wanting a different radius set
-  // --mdc-filled-button-container-shape via inline style or a modifier.
+  // (0.25rem) by default; modifier classes override where needed.
   --mdc-filled-button-container-shape: 0.25rem;
+  // Typography — Material's inline component CSS reads these tokens and
+  // beats Tailwind utilities by source order, so drive them from here.
+  --mdc-filled-button-label-text-size: 0.875rem;       // text-sm (14px)
+  --mdc-filled-button-label-text-weight: 500;          // font-medium
 
   &:hover:not(:disabled) {
     --mdc-filled-button-container-color: var(--color-action-hover);
   }
+}
+
+// Call-site accent: uppercase + wide tracking (product card CTA).
+.btn-action--cta {
+  --mdc-filled-button-label-text-transform: uppercase;
+  --mdc-filled-button-label-text-tracking: 0.025em;    // tracking-wide
+}
+
+// Weight modifier for buttons that want a bolder label (cart summary).
+.btn-action--semibold {
+  --mdc-filled-button-label-text-weight: 600;
+}
+
+// Shape modifier for callers using Tailwind's rounded-2xl (1rem).
+.btn-action--2xl {
+  --mdc-filled-button-container-shape: 1rem;
 }
 
 .btn-ghost {
