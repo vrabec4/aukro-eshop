@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Centralizes UI feedback for cart actions (toasts, etc.) so that:
- *   - CartStoreService stays domain-only (no MatSnackBar dep).
+ *   - CartStore stays domain-only (no MatSnackBar dep).
  *   - Shop page stays thin — no inline snackbar configuration.
  *   - Any future add-to-cart entry point (cart-page "move to basket",
  *     quick-add in header, etc.) gets consistent feedback automatically.

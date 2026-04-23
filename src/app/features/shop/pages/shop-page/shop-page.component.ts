@@ -12,8 +12,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/pagination';
 import { Product } from '../../../../core/models/product.model';
 import { CartFeedbackService } from '../../../../core/services/cart-feedback.service';
-import { CartStoreService } from '../../../../core/services/cart-store.service';
-import { CatalogService } from '../../../../core/services/catalog.service';
+import { CartStore } from '../../../../core/services/cart-store.service';
+import { CatalogStore } from '../../../../core/services/catalog.service';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { ProductCardSkeletonComponent } from '../../../../shared/components/product-card-skeleton/product-card-skeleton.component';
 import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
@@ -31,8 +31,8 @@ import { ProductCardComponent } from '../../../../shared/components/product-card
   templateUrl: './shop-page.component.html',
 })
 export class ShopPageComponent {
-  private readonly catalog = inject(CatalogService);
-  private readonly cart = inject(CartStoreService);
+  private readonly catalog = inject(CatalogStore);
+  private readonly cart = inject(CartStore);
   private readonly cartFeedback = inject(CartFeedbackService);
 
   protected readonly products = this.catalog.products;

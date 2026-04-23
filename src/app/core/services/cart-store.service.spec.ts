@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Product } from '../models/product.model';
-import { CartStoreService } from './cart-store.service';
+import { CartStore } from './cart-store.service';
 
-describe('CartStoreService', () => {
-  let service: CartStoreService;
+describe('CartStore', () => {
+  let service: CartStore;
 
   const apple: Product = {
     id: 'apple',
@@ -28,10 +28,10 @@ describe('CartStoreService', () => {
     // into the next.
     localStorage.clear();
     TestBed.configureTestingModule({
-      providers: [CartStoreService],
+      providers: [CartStore],
     });
 
-    service = TestBed.inject(CartStoreService);
+    service = TestBed.inject(CartStore);
   });
 
   it('aggregates amounts for the same product and computes subtotal', () => {
@@ -93,8 +93,8 @@ describe('CartStoreService', () => {
     // Drop the current TestBed/service and spin up a fresh one — localStorage
     // is the only thing that survives. This is exactly what a reload does.
     TestBed.resetTestingModule();
-    TestBed.configureTestingModule({ providers: [CartStoreService] });
-    const reloaded = TestBed.inject(CartStoreService);
+    TestBed.configureTestingModule({ providers: [CartStore] });
+    const reloaded = TestBed.inject(CartStore);
 
     expect(reloaded.count()).toBe(2);
     expect(reloaded.subtotalCzk()).toBe(2 * 49 + 35);
@@ -105,8 +105,8 @@ describe('CartStoreService', () => {
     localStorage.setItem('aukro-eshop:cart:v1', '{not valid json');
 
     TestBed.resetTestingModule();
-    TestBed.configureTestingModule({ providers: [CartStoreService] });
-    const recovered = TestBed.inject(CartStoreService);
+    TestBed.configureTestingModule({ providers: [CartStore] });
+    const recovered = TestBed.inject(CartStore);
 
     expect(recovered.count()).toBe(0);
     // Next mutation self-heals the corrupt value.

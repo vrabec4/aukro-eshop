@@ -1,4 +1,5 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed } from '@angular/core';
+import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { SHIPPING_CZK, TAX_RATE } from '../constants/cart-fees';
 import { CartItem } from '../models/cart-item.model';
 import { Product } from '../models/product.model';
@@ -11,71 +12,75 @@ export interface CartLine {
   lineTotalCzk: number;
 }
 
-@Injectable({ providedIn: 'root' })
-export class CartStoreService {
-  private readonly _items = signal<CartItem[]>(loadCartFromStorage());
-
-  readonly items = this._items.asReadonly();
-
-  readonly count = computed(() => this._items().length);
-
-  readonly lines = computed<CartLine[]>(() =>
-    this._items()
-      .filter((item) => item.snapshot.quantity > 0)
-      .map((item) => {
-        const product: Product = { id: item.productId, ...item.snapshot };
-        const pricePerUnit = product.basePriceCzk / product.quantity;
-        return {
-          item,
-          product,
-          lineTotalCzk: pricePerUnit * item.quantity,
-        };
-      }),
-  );
-
-  readonly subtotalCzk = computed(() =>
-    this.lines().reduce((sum, line) => sum + line.lineTotalCzk, 0),
-  );
-
-  readonly shippingCzk = computed(() =>
-    this._items().length === 0 ? 0 : SHIPPING_CZK,
-  );
-
-  readonly taxCzk = computed(() => this.subtotalCzk() * TAX_RATE);
-
-  readonly totalCzk = computed(
-    () => this.subtotalCzk() + this.shippingCzk() + this.taxCzk(),
-  );
-
-  add(product: Product, amount: number): void {
-    if (amount <= 0) return;
-    const { id: productId, ...snapshot } = product;
-    const items = this._items();
-    const idx = items.findIndex((it) => it.productId === productId);
-    if (idx >= 0) {
-      const updated = [...items];
-      updated[idx] = {
-        ...updated[idx],
-        quantity: updated[idx].quantity + amount,
-        snapshot, // refresh snapshot to the latest known product data
-      };
-      this._items.set(updated);
-    } else {
-      this._items.set([...items, { productId, quantity: amount, snapshot }]);
-    }
-    saveCartToStorage(this._items());
-  }
-
-  remove(productId: string): void {
-    this._items.set(this._items().filter((it) => it.productId !== productId));
-    saveCartToStorage(this._items());
-  }
-
-  clear(): void {
-    this._items.set([]);
-    saveCartToStorage(this._items());
-  }
+interface CartState {
+  items: CartItem[];
 }
+
+export const CartStore = signalStore(
+  { providedIn: 'root' },
+  withState<CartState>(() => ({ items: loadCartFromStorage() })),
+  withComputed(({ items }) => {
+    const count = computed(() => items().length);
+    const lines = computed<CartLine[]>(() =>
+      items()
+        .filter((item) => item.snapshot.quantity > 0)
+        .map((item) => {
+          const product: Product = { id: item.productId, ...item.snapshot };
+          const pricePerUnit = product.basePriceCzk / product.quantity;
+          return {
+            item,
+            product,
+            lineTotalCzk: pricePerUnit * item.quantity,
+          };
+        }),
+    );
+    const subtotalCzk = computed(() =>
+      lines().reduce((sum, line) => sum + line.lineTotalCzk, 0),
+    );
+    const shippingCzk = computed(() =>
+      items().length === 0 ? 0 : SHIPPING_CZK,
+    );
+    const taxCzk = computed(() => subtotalCzk() * TAX_RATE);
+    const totalCzk = computed(
+      () => subtotalCzk() + shippingCzk() + taxCzk(),
+    );
+    return { count, lines, subtotalCzk, shippingCzk, taxCzk, totalCzk };
+  }),
+  withMethods((store) => ({
+    add(product: Product, amount: number): void {
+      if (amount <= 0) return;
+      const { id: productId, ...snapshot } = product;
+      const items = store.items();
+      const idx = items.findIndex((it) => it.productId === productId);
+      if (idx >= 0) {
+        const updated = [...items];
+        updated[idx] = {
+          ...updated[idx],
+          quantity: updated[idx].quantity + amount,
+          snapshot, // refresh snapshot to the latest known product data
+        };
+        patchState(store, { items: updated });
+      } else {
+        patchState(store, {
+          items: [...items, { productId, quantity: amount, snapshot }],
+        });
+      }
+      saveCartToStorage(store.items());
+    },
+    remove(productId: string): void {
+      patchState(store, {
+        items: store.items().filter((it) => it.productId !== productId),
+      });
+      saveCartToStorage(store.items());
+    },
+    clear(): void {
+      patchState(store, { items: [] });
+      saveCartToStorage(store.items());
+    },
+  })),
+);
+
+export type CartStore = InstanceType<typeof CartStore>;
 
 function loadCartFromStorage(): CartItem[] {
   try {

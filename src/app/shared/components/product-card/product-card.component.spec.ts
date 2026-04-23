@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Product } from '../../../core/models/product.model';
-import { SettingsStoreService } from '../../../core/services/settings-store.service';
+import { SettingsStore } from '../../../core/services/settings-store.service';
 import { ProductCardComponent } from './product-card.component';
 
 describe('ProductCardComponent', () => {
@@ -25,13 +25,13 @@ describe('ProductCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProductCardComponent, TranslateModule.forRoot()],
-      providers: [SettingsStoreService],
+      providers: [SettingsStore],
     }).compileComponents();
   });
 
   it('renders the localized product name and price per unit', () => {
     const fixture = TestBed.createComponent(ProductCardComponent);
-    const settings = TestBed.inject(SettingsStoreService);
+    const settings = TestBed.inject(SettingsStore);
 
     settings.setLanguage('en');
     fixture.componentRef.setInput('product', product);

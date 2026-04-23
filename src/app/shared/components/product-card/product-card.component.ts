@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { Product } from '../../../core/models/product.model';
-import { SettingsStoreService } from '../../../core/services/settings-store.service';
+import { SettingsStore } from '../../../core/services/settings-store.service';
 
 @Component({
   selector: 'app-product-card',
@@ -13,7 +13,7 @@ import { SettingsStoreService } from '../../../core/services/settings-store.serv
   templateUrl: './product-card.component.html',
 })
 export class ProductCardComponent {
-  protected readonly settings = inject(SettingsStoreService);
+  protected readonly settings = inject(SettingsStore);
 
   readonly product = input.required<Product>();
   readonly addToCart = output<number>();

@@ -1,4 +1,5 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject } from '@angular/core';
+import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
 import { TranslateService } from '@ngx-translate/core';
 import { convertFromCzk } from '../constants/exchange-rates.2024-12-31';
 import { LANGUAGE_LOCALES, UNIT_LABELS } from '../constants/i18n';
@@ -8,71 +9,58 @@ import { ProductUnit } from '../models/product.model';
 
 const STORAGE_KEY = 'aukro-eshop:settings:v1';
 
-interface PersistedSettings {
+interface SettingsState {
   language: Language;
   currency: Currency;
 }
 
-@Injectable({ providedIn: 'root' })
-export class SettingsStoreService {
-  private readonly translate = inject(TranslateService);
-  private readonly initial = loadSettingsFromStorage();
-  private readonly _language = signal<Language>(this.initial.language);
-  private readonly _currency = signal<Currency>(this.initial.currency);
+export const SettingsStore = signalStore(
+  { providedIn: 'root' },
+  withState<SettingsState>(() => loadSettingsFromStorage()),
+  withMethods((store) => {
+    const translate = inject(TranslateService);
+    return {
+      setLanguage(language: Language): void {
+        patchState(store, { language });
+        translate.use(language);
+        saveSettingsToStorage({ language, currency: store.currency() });
+      },
+      setCurrency(currency: Currency): void {
+        patchState(store, { currency });
+        saveSettingsToStorage({ language: store.language(), currency });
+      },
+      unit(u: ProductUnit): string {
+        return UNIT_LABELS[store.language()][u];
+      },
+      price(amountCzk: number | null | undefined): string {
+        if (amountCzk == null || Number.isNaN(amountCzk)) return '';
+        const currency = store.currency();
+        const locale = LANGUAGE_LOCALES[store.language()];
+        const converted = convertFromCzk(amountCzk, currency);
+        return new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency,
+          maximumFractionDigits: 2,
+        }).format(converted);
+      },
+    };
+  }),
+  withHooks({
+    onInit(store) {
+      // Hydrate ngx-translate with whatever language we loaded from storage
+      // so the first render picks the right dictionary.
+      inject(TranslateService).use(store.language());
+    },
+  }),
+);
 
-  readonly language = this._language.asReadonly();
-  readonly currency = this._currency.asReadonly();
+export type SettingsStore = InstanceType<typeof SettingsStore>;
 
-  constructor() {
-    // Sync the initial (possibly hydrated) language into ngx-translate so
-    // the first render uses the right dictionary.
-    this.translate.use(this._language());
-  }
-
-  setLanguage(language: Language): void {
-    this._language.set(language);
-    this.translate.use(language);
-    this.persist();
-  }
-
-  setCurrency(currency: Currency): void {
-    this._currency.set(currency);
-    this.persist();
-  }
-
-  // --- Formatting helpers -------------------------------------------------
-  // UI strings go through the `| translate` pipe in templates; these helpers
-  // handle numeric / unit formatting that ngx-translate doesn't cover.
-
-  unit(u: ProductUnit): string {
-    return UNIT_LABELS[this._language()][u];
-  }
-
-  price(amountCzk: number | null | undefined): string {
-    if (amountCzk == null || Number.isNaN(amountCzk)) return '';
-    const currency = this._currency();
-    const locale = LANGUAGE_LOCALES[this._language()];
-    const converted = convertFromCzk(amountCzk, currency);
-    return new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 2,
-    }).format(converted);
-  }
-
-  private persist(): void {
-    saveSettingsToStorage({
-      language: this._language(),
-      currency: this._currency(),
-    });
-  }
-}
-
-function loadSettingsFromStorage(): PersistedSettings {
+function loadSettingsFromStorage(): SettingsState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaults();
-    const parsed = JSON.parse(raw) as Partial<PersistedSettings>;
+    const parsed = JSON.parse(raw) as Partial<SettingsState>;
     return {
       // Validate against the allowed enum — someone editing localStorage
       // directly, or a stored value from an older schema, falls back to
@@ -90,7 +78,7 @@ function loadSettingsFromStorage(): PersistedSettings {
   }
 }
 
-function saveSettingsToStorage(settings: PersistedSettings): void {
+function saveSettingsToStorage(settings: SettingsState): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
   } catch {
@@ -99,6 +87,6 @@ function saveSettingsToStorage(settings: PersistedSettings): void {
   }
 }
 
-function defaults(): PersistedSettings {
+function defaults(): SettingsState {
   return { language: DEFAULT_LANGUAGE, currency: DEFAULT_CURRENCY };
 }

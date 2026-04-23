@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Currency } from './core/models/currency.model';
 import { Language } from './core/models/language.model';
-import { CartStoreService } from './core/services/cart-store.service';
-import { SettingsStoreService } from './core/services/settings-store.service';
+import { CartStore } from './core/services/cart-store.service';
+import { SettingsStore } from './core/services/settings-store.service';
 import { AppHeaderComponent } from './shared/components/app-header/app-header.component';
 
 @Component({
@@ -15,8 +15,8 @@ import { AppHeaderComponent } from './shared/components/app-header/app-header.co
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private readonly settings = inject(SettingsStoreService);
-  private readonly cart = inject(CartStoreService);
+  private readonly settings = inject(SettingsStore);
+  private readonly cart = inject(CartStore);
 
   protected readonly language = this.settings.language;
   protected readonly currency = this.settings.currency;

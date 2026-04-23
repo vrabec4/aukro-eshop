@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { CartLine } from '../../../core/services/cart-store.service';
-import { SettingsStoreService } from '../../../core/services/settings-store.service';
+import { SettingsStore } from '../../../core/services/settings-store.service';
 
 @Component({
   selector: 'app-cart-item-row',
@@ -11,7 +11,7 @@ import { SettingsStoreService } from '../../../core/services/settings-store.serv
   templateUrl: './cart-item-row.component.html',
 })
 export class CartItemRowComponent {
-  protected readonly settings = inject(SettingsStoreService);
+  protected readonly settings = inject(SettingsStore);
 
   readonly line = input.required<CartLine>();
   readonly remove = output<void>();

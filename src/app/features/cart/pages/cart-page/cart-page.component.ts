@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { CartStoreService } from '../../../../core/services/cart-store.service';
+import { CartStore } from '../../../../core/services/cart-store.service';
 import { CartItemRowComponent } from '../../../../shared/components/cart-item-row/cart-item-row.component';
 import { CartSummaryComponent } from '../../../../shared/components/cart-summary/cart-summary.component';
 
@@ -13,7 +13,7 @@ import { CartSummaryComponent } from '../../../../shared/components/cart-summary
   templateUrl: './cart-page.component.html',
 })
 export class CartPageComponent {
-  private readonly cart = inject(CartStoreService);
+  private readonly cart = inject(CartStore);
 
   protected readonly count = this.cart.count;
   protected readonly lines = this.cart.lines;

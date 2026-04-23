@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TRANSLATIONS } from '../../../core/i18n/translations';
-import { SettingsStoreService } from '../../../core/services/settings-store.service';
+import { SettingsStore } from '../../../core/services/settings-store.service';
 import { CartSummaryComponent } from './cart-summary.component';
 
 describe('CartSummaryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CartSummaryComponent, TranslateModule.forRoot()],
-      providers: [SettingsStoreService],
+      providers: [SettingsStore],
     }).compileComponents();
 
     // Ensure the translate pipe resolves keys to real Czech strings —

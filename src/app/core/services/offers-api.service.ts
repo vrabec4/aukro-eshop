@@ -37,7 +37,7 @@ export class OffersApiService {
       'X-Accept-Language': 'cs-CZ',
     });
 
-    // Deliberately no catchError here — errors propagate to CatalogService
+    // Deliberately no catchError here — errors propagate to CatalogStore
     // which surfaces them to the UI. Swallowing with an empty page would
     // hide real failures behind the "No products" state.
     return this.http

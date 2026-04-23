@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { SettingsStoreService } from './settings-store.service';
+import { SettingsStore } from './settings-store.service';
 
-describe('SettingsStoreService', () => {
-  let service: SettingsStoreService;
+describe('SettingsStore', () => {
+  let service: SettingsStore;
 
   beforeEach(() => {
     // Reset persisted state between tests so one test's selection can't
@@ -11,9 +11,9 @@ describe('SettingsStoreService', () => {
     localStorage.clear();
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
-      providers: [SettingsStoreService],
+      providers: [SettingsStore],
     });
-    service = TestBed.inject(SettingsStoreService);
+    service = TestBed.inject(SettingsStore);
   });
 
   describe('unit()', () => {
@@ -88,9 +88,9 @@ describe('SettingsStoreService', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [TranslateModule.forRoot()],
-        providers: [SettingsStoreService],
+        providers: [SettingsStore],
       });
-      const reloaded = TestBed.inject(SettingsStoreService);
+      const reloaded = TestBed.inject(SettingsStore);
 
       expect(reloaded.language()).toBe('en');
       expect(reloaded.currency()).toBe('EUR');
@@ -102,9 +102,9 @@ describe('SettingsStoreService', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [TranslateModule.forRoot()],
-        providers: [SettingsStoreService],
+        providers: [SettingsStore],
       });
-      const recovered = TestBed.inject(SettingsStoreService);
+      const recovered = TestBed.inject(SettingsStore);
 
       expect(recovered.language()).toBe('cs');
       expect(recovered.currency()).toBe('CZK');
@@ -121,9 +121,9 @@ describe('SettingsStoreService', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [TranslateModule.forRoot()],
-        providers: [SettingsStoreService],
+        providers: [SettingsStore],
       });
-      const recovered = TestBed.inject(SettingsStoreService);
+      const recovered = TestBed.inject(SettingsStore);
 
       expect(recovered.language()).toBe('cs');
       expect(recovered.currency()).toBe('CZK');
