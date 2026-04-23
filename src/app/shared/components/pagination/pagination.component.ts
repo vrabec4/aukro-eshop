@@ -2,6 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output } f
 import { MatButtonModule } from '@angular/material/button';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 
+/**
+ * Pagination nav with a mobile-collapsed "X / Y" counter.
+ *
+ * Style contract: the template references the global .btn-action /
+ * .btn-ghost variant classes from src/styles/button-variants.scss.
+ * If this component is ever lazy-loaded or extracted into a library,
+ * those classes must travel with it.
+ */
 @Component({
   selector: 'app-pagination',
   standalone: true,

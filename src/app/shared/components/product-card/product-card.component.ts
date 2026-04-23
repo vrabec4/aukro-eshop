@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { Product } from '../../../core/models/product.model';
@@ -17,15 +17,10 @@ export class ProductCardComponent {
   readonly product = input.required<Product>();
   readonly addToCart = output<number>();
 
-  protected readonly selectedAmount = signal(0);
-
-  constructor() {
-    // Keep the input in sync with the product's default package size whenever
-    // the product changes (this also initialises the value on first render).
-    effect(() => {
-      this.selectedAmount.set(this.product().quantity);
-    });
-  }
+  // Linked to the product's default quantity: re-derives whenever the
+  // product input changes, but user edits (stepper / typing in the input)
+  // take precedence until the product next changes.
+  protected readonly selectedAmount = linkedSignal(() => this.product().quantity);
 
   readonly localizedName = computed(
     () => this.product().name[this.settings.language()],
