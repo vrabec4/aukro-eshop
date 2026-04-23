@@ -71,9 +71,9 @@ import { ProductCardComponent } from '../../../shared/ui/product-card/product-ca
             class="mt-10 flex flex-wrap items-center justify-center gap-2"
           >
             <button
-              mat-button
+              mat-stroked-button
               type="button"
-              class="inline-flex h-10 items-center rounded-full border border-slate-200 !bg-white !px-4 text-sm font-medium !text-slate-700 shadow-sm transition hover:!bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              class="btn-ghost btn-ghost--pill inline-flex h-10 items-center px-4 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-40"
               [disabled]="page() === 0"
               (click)="onPageChange(page() - 1)"
             >
@@ -81,28 +81,31 @@ import { ProductCardComponent } from '../../../shared/ui/product-card/product-ca
             </button>
 
             @for (n of pageNumbers(); track n) {
-              <button
-                mat-button
-                type="button"
-                class="h-10 !min-w-10 rounded-full !px-3 text-sm font-medium transition"
-                [class.!bg-indigo-600]="n === page()"
-                [class.!text-white]="n === page()"
-                [class.shadow-md]="n === page()"
-                [class.border]="n !== page()"
-                [class.border-slate-200]="n !== page()"
-                [class.!bg-white]="n !== page()"
-                [class.!text-slate-700]="n !== page()"
-                [class.hover:!bg-slate-50]="n !== page()"
-                (click)="onPageChange(n)"
-              >
-                {{ n + 1 }}
-              </button>
+              @if (n === page()) {
+                <button
+                  mat-flat-button
+                  type="button"
+                  class="btn-action btn-action--pill h-10 min-w-10 px-3 shadow-md transition"
+                  (click)="onPageChange(n)"
+                >
+                  {{ n + 1 }}
+                </button>
+              } @else {
+                <button
+                  mat-stroked-button
+                  type="button"
+                  class="btn-ghost btn-ghost--pill h-10 min-w-10 px-3 transition"
+                  (click)="onPageChange(n)"
+                >
+                  {{ n + 1 }}
+                </button>
+              }
             }
 
             <button
-              mat-button
+              mat-stroked-button
               type="button"
-              class="inline-flex h-10 items-center rounded-full border border-slate-200 !bg-white !px-4 text-sm font-medium !text-slate-700 shadow-sm transition hover:!bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              class="btn-ghost btn-ghost--pill inline-flex h-10 items-center px-4 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-40"
               [disabled]="page() >= totalPages() - 1"
               (click)="onPageChange(page() + 1)"
             >

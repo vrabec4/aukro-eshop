@@ -40,10 +40,24 @@
   --mdc-filled-button-container-shape: 1rem;
 }
 
+// Pill shape modifier — matches Tailwind's rounded-full.
+.btn-action--pill {
+  --mdc-filled-button-container-shape: 9999px;
+}
+
 .btn-ghost {
   --mdc-outlined-button-outline-color: var(--color-border);
   --mdc-outlined-button-label-text-color: var(--color-text-muted);
   --mat-outlined-button-state-layer-color: var(--color-text-muted);
+  --mdc-outlined-button-label-text-size: 0.875rem;
+  --mdc-outlined-button-label-text-weight: 500;
+  --mdc-outlined-button-container-shape: 0.25rem;
+}
+
+// Compound selector — Material's inline `.mdc-button { background: transparent }`
+// ties with `.btn-ghost` on specificity and wins by source order. Chaining
+// with .mat-mdc-outlined-button raises specificity above Material's rule.
+.btn-ghost.mat-mdc-outlined-button {
   background-color: var(--color-surface);
 
   &:hover:not(:disabled) {
@@ -51,14 +65,9 @@
   }
 }
 
-.btn-ghost--active {
-  --mdc-outlined-button-outline-color: var(--color-action);
-  --mdc-outlined-button-label-text-color: var(--color-on-action);
-  background-color: var(--color-action);
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-action-hover);
-  }
+// Pill shape modifier for rounded-full pagination buttons.
+.btn-ghost--pill {
+  --mdc-outlined-button-container-shape: 9999px;
 }
 
 .btn-danger {
