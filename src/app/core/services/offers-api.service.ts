@@ -97,11 +97,18 @@ function imagesFromTitleUrl(url: string): ProductImages {
 }
 
 function quantityTypeToUnit(qt: string | undefined): ProductUnit {
-  // Aukro sends `pieces` for single items and `sets` for multi-packs
-  // (e.g. 4× 314 ml mandarinky, jars of jam, 3-pack of pineapple). Map
-  // sets to `pack` so the UI doesn't say "zväzok/bundle" for canned goods.
-  if (qt === 'sets') return 'pack';
-  return 'pcs';
+  // Map Aukro's quantityType 1:1. The API is the source of truth — no name
+  // regex. Extend the switch if Aukro ever adds weight/volume variants.
+  switch (qt) {
+    case 'sets':
+      return 'pack';
+    case 'kilograms':
+    case 'weight':
+      return 'kg';
+    case 'pieces':
+    default:
+      return 'pcs';
+  }
 }
 
 // Re-export so callers have a typed view of the page metadata if needed.
