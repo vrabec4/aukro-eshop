@@ -84,7 +84,6 @@ describe('SettingsStoreService', () => {
     it('persists language + currency across service instances (simulates a page refresh)', () => {
       service.setLanguage('en');
       service.setCurrency('EUR');
-      TestBed.flushEffects();
 
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({

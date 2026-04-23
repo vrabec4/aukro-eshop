@@ -1,4 +1,4 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { convertFromCzk } from '../constants/exchange-rates.2024-12-31';
 import { LANGUAGE_LOCALES, UNIT_LABELS } from '../constants/i18n';
@@ -24,31 +24,20 @@ export class SettingsStoreService {
   readonly currency = this._currency.asReadonly();
 
   constructor() {
-    // Keep TranslateService in sync with the language signal. Signal-driven
-    // so it fires on initial boot (with the hydrated value from storage)
-    // and again on every setLanguage call.
-    effect(() => {
-      this.translate.use(this._language());
-    });
-
-    // Persist any change to the language/currency selection back to
-    // localStorage. Effect runs on initial read too, which harmlessly
-    // re-writes the loaded values (and self-heals if the previous load
-    // fell back to defaults due to corruption).
-    effect(() => {
-      saveSettingsToStorage({
-        language: this._language(),
-        currency: this._currency(),
-      });
-    });
+    // Sync the initial (possibly hydrated) language into ngx-translate so
+    // the first render uses the right dictionary.
+    this.translate.use(this._language());
   }
 
   setLanguage(language: Language): void {
     this._language.set(language);
+    this.translate.use(language);
+    this.persist();
   }
 
   setCurrency(currency: Currency): void {
     this._currency.set(currency);
+    this.persist();
   }
 
   // --- Formatting helpers -------------------------------------------------
@@ -69,6 +58,13 @@ export class SettingsStoreService {
       currency,
       maximumFractionDigits: 2,
     }).format(converted);
+  }
+
+  private persist(): void {
+    saveSettingsToStorage({
+      language: this._language(),
+      currency: this._currency(),
+    });
   }
 }
 

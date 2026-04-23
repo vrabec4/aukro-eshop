@@ -89,9 +89,6 @@ describe('CartStoreService', () => {
   it('persists items across service instances (simulates a page refresh)', () => {
     service.add(apple, 2);
     service.add(banana, 1);
-    // Drain the persistence effect so localStorage actually gets written
-    // before we tear the testbed down.
-    TestBed.flushEffects();
 
     // Drop the current TestBed/service and spin up a fresh one — localStorage
     // is the only thing that survives. This is exactly what a reload does.
@@ -110,10 +107,10 @@ describe('CartStoreService', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({ providers: [CartStoreService] });
     const recovered = TestBed.inject(CartStoreService);
-    TestBed.flushEffects();
 
     expect(recovered.count()).toBe(0);
-    // Self-heal: the persistence effect overwrites the corrupt value with [].
+    // Next mutation self-heals the corrupt value.
+    recovered.clear();
     expect(localStorage.getItem('aukro-eshop:cart:v1')).toBe('[]');
   });
 });

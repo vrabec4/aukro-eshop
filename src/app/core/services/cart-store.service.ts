@@ -1,4 +1,4 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { SHIPPING_CZK, TAX_RATE } from '../constants/cart-fees';
 import { CartItem } from '../models/cart-item.model';
 import { Product } from '../models/product.model';
@@ -47,15 +47,6 @@ export class CartStoreService {
     () => this.subtotalCzk() + this.shippingCzk() + this.taxCzk(),
   );
 
-  constructor() {
-    // Persist any change to _items back to localStorage. Effect runs on
-    // initial read too, which harmlessly re-writes the loaded state (and
-    // self-heals if the previous load fell back to [] due to corruption).
-    effect(() => {
-      saveCartToStorage(this._items());
-    });
-  }
-
   add(product: Product, amount: number): void {
     if (amount <= 0) return;
     const { id: productId, ...snapshot } = product;
@@ -72,14 +63,17 @@ export class CartStoreService {
     } else {
       this._items.set([...items, { productId, quantity: amount, snapshot }]);
     }
+    saveCartToStorage(this._items());
   }
 
   remove(productId: string): void {
     this._items.set(this._items().filter((it) => it.productId !== productId));
+    saveCartToStorage(this._items());
   }
 
   clear(): void {
     this._items.set([]);
+    saveCartToStorage(this._items());
   }
 }
 
