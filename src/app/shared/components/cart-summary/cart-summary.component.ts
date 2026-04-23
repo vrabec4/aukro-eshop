@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 
 @Component({
   selector: 'app-cart-summary',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cart-summary.component.html',
 })

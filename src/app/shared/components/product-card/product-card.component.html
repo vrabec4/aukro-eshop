@@ -42,7 +42,7 @@
           class="flex h-8 w-8 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
           [disabled]="selectedAmount() <= 0"
           (click)="decrement()"
-          [attr.aria-label]="settings.t('decreaseAmount')"
+          [attr.aria-label]="'decreaseAmount' | translate"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@
           [ngModel]="selectedAmount()"
           (ngModelChange)="onAmountChange($event)"
           class="w-12 bg-transparent text-center tabular-nums outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          [attr.aria-label]="settings.t('amount')"
+          [attr.aria-label]="'amount' | translate"
         />
 
         <span class="pr-2 text-slate-500">{{ settings.unit(product().unit) }}</span>
@@ -74,7 +74,7 @@
           type="button"
           class="flex h-8 w-8 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
           (click)="increment()"
-          [attr.aria-label]="settings.t('increaseAmount')"
+          [attr.aria-label]="'increaseAmount' | translate"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@
         [disabled]="selectedAmount() <= 0"
         (click)="addToCart.emit(selectedAmount())"
       >
-        {{ settings.t('addToBasket') }}
+        {{ 'addToBasket' | translate }}
       </button>
     </div>
   </div>

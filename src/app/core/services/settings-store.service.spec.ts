@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { SettingsStoreService } from './settings-store.service';
 
 describe('SettingsStoreService', () => {
@@ -8,21 +9,11 @@ describe('SettingsStoreService', () => {
     // Reset persisted state between tests so one test's selection can't
     // bleed into the next.
     localStorage.clear();
-    TestBed.configureTestingModule({ providers: [SettingsStoreService] });
-    service = TestBed.inject(SettingsStoreService);
-  });
-
-  describe('t()', () => {
-    it('returns the value for the current language', () => {
-      service.setLanguage('cs');
-      expect(service.t('shopTitle')).toBe('Seznam produktů');
-
-      service.setLanguage('en');
-      expect(service.t('shopTitle')).toBe('Shoplist');
-
-      service.setLanguage('sk');
-      expect(service.t('shopTitle')).toBe('Zoznam produktov');
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
+      providers: [SettingsStoreService],
     });
+    service = TestBed.inject(SettingsStoreService);
   });
 
   describe('unit()', () => {
@@ -96,7 +87,10 @@ describe('SettingsStoreService', () => {
       TestBed.flushEffects();
 
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule({ providers: [SettingsStoreService] });
+      TestBed.configureTestingModule({
+        imports: [TranslateModule.forRoot()],
+        providers: [SettingsStoreService],
+      });
       const reloaded = TestBed.inject(SettingsStoreService);
 
       expect(reloaded.language()).toBe('en');
@@ -107,7 +101,10 @@ describe('SettingsStoreService', () => {
       localStorage.setItem('aukro-eshop:settings:v1', '{not valid json');
 
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule({ providers: [SettingsStoreService] });
+      TestBed.configureTestingModule({
+        imports: [TranslateModule.forRoot()],
+        providers: [SettingsStoreService],
+      });
       const recovered = TestBed.inject(SettingsStoreService);
 
       expect(recovered.language()).toBe('cs');
@@ -123,7 +120,10 @@ describe('SettingsStoreService', () => {
       );
 
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule({ providers: [SettingsStoreService] });
+      TestBed.configureTestingModule({
+        imports: [TranslateModule.forRoot()],
+        providers: [SettingsStoreService],
+      });
       const recovered = TestBed.inject(SettingsStoreService);
 
       expect(recovered.language()).toBe('cs');

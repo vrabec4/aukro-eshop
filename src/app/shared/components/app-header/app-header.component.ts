@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 import { Currency } from '../../../core/models/currency.model';
 import { Language } from '../../../core/models/language.model';
-import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { CartBadgeComponent } from '../cart-badge/cart-badge.component';
 import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher/language-currency-switcher.component';
 
@@ -14,6 +14,7 @@ import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher
     RouterLink,
     RouterLinkActive,
     MatButtonModule,
+    TranslateModule,
     CartBadgeComponent,
     LanguageCurrencySwitcherComponent,
   ],
@@ -32,7 +33,7 @@ import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher
             routerLinkActive="btn-ghost--active"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            {{ settings.t('shopList') }}
+            {{ 'shopList' | translate }}
           </a>
           <app-cart-badge [count]="cartCount()" />
         </nav>
@@ -48,8 +49,6 @@ import { LanguageCurrencySwitcherComponent } from '../language-currency-switcher
   `,
 })
 export class AppHeaderComponent {
-  protected readonly settings = inject(SettingsStoreService);
-
   readonly language = input.required<Language>();
   readonly currency = input.required<Currency>();
   readonly cartCount = input.required<number>();

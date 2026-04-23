@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SettingsStoreService } from './settings-store.service';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Centralizes UI feedback for cart actions (toasts, etc.) so that:
@@ -12,12 +12,12 @@ import { SettingsStoreService } from './settings-store.service';
 @Injectable({ providedIn: 'root' })
 export class CartFeedbackService {
   private readonly snackBar = inject(MatSnackBar);
-  private readonly settings = inject(SettingsStoreService);
+  private readonly translate = inject(TranslateService);
 
   confirmAdded(): void {
     this.snackBar.open(
-      this.settings.t('addedToBasket'),
-      this.settings.t('dismiss'),
+      this.translate.instant('addedToBasket'),
+      this.translate.instant('dismiss'),
       {
         duration: 2500,
         horizontalPosition: 'end',

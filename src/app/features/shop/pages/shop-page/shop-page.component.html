@@ -1,14 +1,14 @@
 <section class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
   <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
     <h1 class="text-3xl font-medium text-slate-800">
-      {{ settings.t('shopTitle') }}
+      {{ 'shopTitle' | translate }}
       <span class="ml-2 text-sm text-emerald-600">
-        {{ totalElements() }} {{ settings.t('itemsSuffix') }}
+        {{ totalElements() }} {{ 'itemsSuffix' | translate }}
       </span>
     </h1>
 
     <div class="flex items-center gap-2 text-sm text-slate-600">
-      <span id="per-page-label">{{ settings.t('perPage') }}</span>
+      <span id="per-page-label">{{ 'perPage' | translate }}</span>
       <div class="relative" #pageSizePicker>
         <button
           type="button"
@@ -65,24 +65,24 @@
       class="flex flex-col items-center gap-4 rounded-2xl border border-red-200 bg-red-50 px-6 py-10 text-center"
     >
       <p class="text-base font-medium text-red-700">
-        {{ settings.t('error') }}
+        {{ 'error' | translate }}
       </p>
       <button
         type="button"
         class="inline-flex items-center gap-2 rounded-full border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
         (click)="onRetry()"
       >
-        {{ settings.t('retry') }}
+        {{ 'retry' | translate }}
       </button>
     </div>
   } @else if (loading()) {
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2" [attr.aria-label]="settings.t('loading')">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2" [attr.aria-label]="'loading' | translate">
       @for (_ of skeletonSlots(); track $index) {
         <app-product-card-skeleton />
       }
     </div>
   } @else if (products().length === 0) {
-    <p class="text-gray-500">{{ settings.t('emptyShop') }}</p>
+    <p class="text-gray-500">{{ 'emptyShop' | translate }}</p>
   } @else {
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
       @for (product of products(); track product.id) {

@@ -1,6 +1,7 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { convertFromCzk } from '../constants/exchange-rates.2024-12-31';
-import { LANGUAGE_LOCALES, UI_LABELS, UiKey, UNIT_LABELS } from '../constants/i18n';
+import { LANGUAGE_LOCALES, UNIT_LABELS } from '../constants/i18n';
 import { CURRENCIES, Currency, DEFAULT_CURRENCY } from '../models/currency.model';
 import { DEFAULT_LANGUAGE, Language, LANGUAGES } from '../models/language.model';
 import { ProductUnit } from '../models/product.model';
@@ -14,6 +15,7 @@ interface PersistedSettings {
 
 @Injectable({ providedIn: 'root' })
 export class SettingsStoreService {
+  private readonly translate = inject(TranslateService);
   private readonly initial = loadSettingsFromStorage();
   private readonly _language = signal<Language>(this.initial.language);
   private readonly _currency = signal<Currency>(this.initial.currency);
@@ -22,6 +24,13 @@ export class SettingsStoreService {
   readonly currency = this._currency.asReadonly();
 
   constructor() {
+    // Keep TranslateService in sync with the language signal. Signal-driven
+    // so it fires on initial boot (with the hydrated value from storage)
+    // and again on every setLanguage call.
+    effect(() => {
+      this.translate.use(this._language());
+    });
+
     // Persist any change to the language/currency selection back to
     // localStorage. Effect runs on initial read too, which harmlessly
     // re-writes the loaded values (and self-heals if the previous load
@@ -42,15 +51,9 @@ export class SettingsStoreService {
     this._currency.set(currency);
   }
 
-  // --- Template helpers ---------------------------------------------------
-  // Called directly from templates (e.g. `{{ settings.t('shopTitle') }}`).
-  // Each one reads the language/currency signal, so Angular's template
-  // reactive context re-evaluates the expression whenever the signal
-  // changes — no pipes, no `pure: false`, no CD-tick re-runs.
-
-  t(key: UiKey): string {
-    return UI_LABELS[this._language()][key];
-  }
+  // --- Formatting helpers -------------------------------------------------
+  // UI strings go through the `| translate` pipe in templates; these helpers
+  // handle numeric / unit formatting that ngx-translate doesn't cover.
 
   unit(u: ProductUnit): string {
     return UNIT_LABELS[this._language()][u];

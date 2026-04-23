@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { SettingsStoreService } from '../../../core/services/settings-store.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { PaginationComponent } from './pagination.component';
 
 describe('PaginationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PaginationComponent],
-      providers: [SettingsStoreService],
+      imports: [PaginationComponent, TranslateModule.forRoot()],
     }).compileComponents();
   });
 
