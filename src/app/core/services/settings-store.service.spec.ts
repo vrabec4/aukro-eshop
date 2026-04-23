@@ -5,6 +5,9 @@ describe('SettingsStoreService', () => {
   let service: SettingsStoreService;
 
   beforeEach(() => {
+    // Reset persisted state between tests so one test's selection can't
+    // bleed into the next.
+    localStorage.clear();
     TestBed.configureTestingModule({ providers: [SettingsStoreService] });
     service = TestBed.inject(SettingsStoreService);
   });
@@ -77,6 +80,54 @@ describe('SettingsStoreService', () => {
       service.setCurrency('CZK');
       // 1000 CZK in en-US → "CZK 1,000.00" (period decimal, comma thousands).
       expect(service.price(1000)).toMatch(/1,000\.00/);
+    });
+  });
+
+  describe('persistence', () => {
+    it('starts with defaults when localStorage has no prior settings', () => {
+      // beforeEach cleared storage, so this mirrors a first-ever visit.
+      expect(service.language()).toBe('cs');
+      expect(service.currency()).toBe('CZK');
+    });
+
+    it('persists language + currency across service instances (simulates a page refresh)', () => {
+      service.setLanguage('en');
+      service.setCurrency('EUR');
+      TestBed.flushEffects();
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({ providers: [SettingsStoreService] });
+      const reloaded = TestBed.inject(SettingsStoreService);
+
+      expect(reloaded.language()).toBe('en');
+      expect(reloaded.currency()).toBe('EUR');
+    });
+
+    it('falls back to defaults when localStorage contains invalid JSON', () => {
+      localStorage.setItem('aukro-eshop:settings:v1', '{not valid json');
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({ providers: [SettingsStoreService] });
+      const recovered = TestBed.inject(SettingsStoreService);
+
+      expect(recovered.language()).toBe('cs');
+      expect(recovered.currency()).toBe('CZK');
+    });
+
+    it('falls back to defaults when stored values are outside the allowed enums', () => {
+      // Someone edited localStorage directly, or a stored value from an
+      // older schema — the service must not trust raw JSON.
+      localStorage.setItem(
+        'aukro-eshop:settings:v1',
+        JSON.stringify({ language: 'fr', currency: 'JPY' }),
+      );
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({ providers: [SettingsStoreService] });
+      const recovered = TestBed.inject(SettingsStoreService);
+
+      expect(recovered.language()).toBe('cs');
+      expect(recovered.currency()).toBe('CZK');
     });
   });
 });
