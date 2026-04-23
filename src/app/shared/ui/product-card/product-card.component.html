@@ -71,7 +71,7 @@
       <button
         mat-flat-button
         type="button"
-        class="btn-action btn-action--cta w-full cursor-pointer rounded px-8 py-2 transition hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56"
+        class="btn-action btn-action--cta w-full rounded px-8 py-2 transition hover:shadow-lg disabled:opacity-50 sm:w-auto sm:min-w-56"
         [disabled]="selectedAmount() <= 0"
         (click)="addToCart.emit(selectedAmount())"
       >
