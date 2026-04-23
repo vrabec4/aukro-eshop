@@ -50,6 +50,16 @@ describe('PaginationComponent', () => {
     expect(prev.disabled).toBe(true);
   });
 
+  it('marks the active page button with aria-current="page"', () => {
+    const fixture = render(2, 5);
+    const current = fixture.nativeElement.querySelector('button[aria-current="page"]') as HTMLButtonElement;
+    expect(current).not.toBeNull();
+    expect(current.textContent?.trim()).toBe('3');
+    const others = [...fixture.nativeElement.querySelectorAll('button')]
+      .filter((b) => b !== current && /^\d+$/.test(b.textContent?.trim() ?? ''));
+    for (const b of others) expect(b.getAttribute('aria-current')).toBeNull();
+  });
+
   it('disables the next button on the last page', () => {
     const fixture = render(4, 5);
     const buttons = [...fixture.nativeElement.querySelectorAll('button')] as HTMLButtonElement[];
