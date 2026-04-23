@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UI_LABELS } from '../../../../core/constants/i18n';
 import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/offer-ids';
 import { Product } from '../../../../core/models/product.model';
+import { CartFeedbackService } from '../../../../core/services/cart-feedback.service';
 import { CartStoreService } from '../../../../core/services/cart-store.service';
 import { CatalogService } from '../../../../core/services/catalog.service';
-import { SettingsStoreService } from '../../../../core/services/settings-store.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
 import { ProductCardSkeletonComponent } from '../../../../shared/ui/product-card-skeleton/product-card-skeleton.component';
@@ -26,8 +24,7 @@ import { ProductCardComponent } from '../../../../shared/ui/product-card/product
 export class ShopPageComponent {
   private readonly catalog = inject(CatalogService);
   private readonly cart = inject(CartStoreService);
-  private readonly settings = inject(SettingsStoreService);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly cartFeedback = inject(CartFeedbackService);
 
   protected readonly products = this.catalog.products;
   protected readonly loading = this.catalog.loading;
@@ -45,12 +42,7 @@ export class ShopPageComponent {
 
   protected onAddToCart(product: Product, amount: number): void {
     this.cart.add(product, amount);
-    const lang = this.settings.language();
-    this.snackBar.open(UI_LABELS[lang].addedToBasket, UI_LABELS[lang].dismiss, {
-      duration: 2500,
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-    });
+    this.cartFeedback.confirmAdded();
   }
 
   protected onPageChange(page: number): void {
