@@ -37,6 +37,7 @@ export class ShopPageComponent {
 
   protected readonly products = this.catalog.products;
   protected readonly loading = this.catalog.loading;
+  protected readonly error = this.catalog.error;
   protected readonly page = this.catalog.page;
   protected readonly pageSize = this.catalog.pageSize;
   protected readonly totalPages = this.catalog.totalPages;
@@ -64,5 +65,9 @@ export class ShopPageComponent {
 
   protected onPageSizeChange(size: number): void {
     this.catalog.setPageSize(size);
+  }
+
+  protected onRetry(): void {
+    this.catalog.retry();
   }
 }

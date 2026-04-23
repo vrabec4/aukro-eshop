@@ -30,7 +30,8 @@ export type UiKey =
   | 'addedToBasket'
   | 'dismiss'
   | 'increaseAmount'
-  | 'decreaseAmount';
+  | 'decreaseAmount'
+  | 'retry';
 
 export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
   cs: {
@@ -63,6 +64,7 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     dismiss: 'Zavřít',
     increaseAmount: 'Zvýšit množství',
     decreaseAmount: 'Snížit množství',
+    retry: 'Zkusit znovu',
   },
   sk: {
     shopList: 'Zoznam produktov',
@@ -94,6 +96,7 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     dismiss: 'Zavrieť',
     increaseAmount: 'Zvýšiť množstvo',
     decreaseAmount: 'Znížiť množstvo',
+    retry: 'Skúsiť znova',
   },
   en: {
     shopList: 'Shop list',
@@ -125,6 +128,7 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
     dismiss: 'Dismiss',
     increaseAmount: 'Increase quantity',
     decreaseAmount: 'Decrease quantity',
+    retry: 'Try again',
   },
 };
 

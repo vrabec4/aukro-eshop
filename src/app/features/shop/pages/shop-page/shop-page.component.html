@@ -27,7 +27,23 @@
     </div>
   </div>
 
-  @if (loading()) {
+  @if (error()) {
+    <div
+      role="alert"
+      class="flex flex-col items-center gap-4 rounded-2xl border border-red-200 bg-red-50 px-6 py-10 text-center"
+    >
+      <p class="text-base font-medium text-red-700">
+        {{ 'error' | translate }}
+      </p>
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-full border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
+        (click)="onRetry()"
+      >
+        {{ 'retry' | translate }}
+      </button>
+    </div>
+  } @else if (loading()) {
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2" [attr.aria-label]="'loading' | translate">
       @for (_ of skeletonSlots(); track $index) {
         <app-product-card-skeleton />

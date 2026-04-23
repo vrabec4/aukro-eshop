@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { map, Observable } from 'rxjs';
 import {
   AUKRO_SEARCH_ENDPOINT,
   CATEGORY_ID_FRUIT_VEG,
@@ -23,14 +22,6 @@ export interface OffersPage {
   totalElements: number;
 }
 
-const EMPTY_PAGE: OffersPage = {
-  products: [],
-  page: 0,
-  pageSize: 0,
-  totalPages: 0,
-  totalElements: 0,
-};
-
 @Injectable({ providedIn: 'root' })
 export class OffersApiService {
   private readonly http = inject(HttpClient);
@@ -46,6 +37,9 @@ export class OffersApiService {
       'X-Accept-Language': 'cs-CZ',
     });
 
+    // Deliberately no catchError here — errors propagate to CatalogService
+    // which surfaces them to the UI. Swallowing with an empty page would
+    // hide real failures behind the "No products" state.
     return this.http
       .post<SearchItemsResponse>(
         AUKRO_SEARCH_ENDPOINT,
@@ -60,7 +54,6 @@ export class OffersApiService {
           totalPages: res.page?.totalPages ?? 0,
           totalElements: res.page?.totalElements ?? 0,
         })),
-        catchError(() => of<OffersPage>({ ...EMPTY_PAGE, page, pageSize: size })),
       );
   }
 }
