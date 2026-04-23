@@ -49,7 +49,8 @@ describe('ProductCardComponent', () => {
     fixture.componentInstance.addToCart.subscribe(emitSpy);
     fixture.detectChanges();
 
-    fixture.nativeElement.querySelector('button').click();
+    const cta = fixture.nativeElement.querySelector('button.btn-action') as HTMLButtonElement;
+    cta.click();
 
     expect(emitSpy).toHaveBeenCalledTimes(1);
   });

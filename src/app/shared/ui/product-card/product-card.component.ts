@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { Product } from '../../../core/models/product.model';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { PricePipe } from '../../pipes/price.pipe';
@@ -15,8 +13,6 @@ import { UnitPipe } from '../../pipes/unit.pipe';
   imports: [
     FormsModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     PricePipe,
     TranslatePipe,
     UnitPipe,
@@ -67,6 +63,22 @@ export class ProductCardComponent {
 
   protected onAmountChange(value: number | null): void {
     this.selectedAmount.set(value && value > 0 ? value : 0);
+  }
+
+  protected increment(): void {
+    this.selectedAmount.set(this.roundToStep(this.selectedAmount() + this.step()));
+  }
+
+  protected decrement(): void {
+    this.selectedAmount.set(
+      Math.max(0, this.roundToStep(this.selectedAmount() - this.step())),
+    );
+  }
+
+  // Avoid floating-point drift (0.1 + 0.2 = 0.30000000000000004) when the
+  // step is 0.1 for sub-kg items — round to 1 decimal for sub-integer steps.
+  private roundToStep(value: number): number {
+    return this.step() < 1 ? Math.round(value * 10) / 10 : value;
   }
 
   protected readonly fallbackImage =
