@@ -58,7 +58,7 @@ export class OffersApiService {
   }
 }
 
-function mapSearchItemToProduct(dto: SearchItemDto): Product {
+export function mapSearchItemToProduct(dto: SearchItemDto): Product {
   const id = String(dto.itemId);
   const priceCzk = dto.buyNowPrice?.amount ?? dto.price?.amount ?? 0;
   const apiName = dto.itemName;
@@ -79,7 +79,7 @@ function mapSearchItemToProduct(dto: SearchItemDto): Product {
   };
 }
 
-function imagesFromTitleUrl(url: string): ProductImages {
+export function imagesFromTitleUrl(url: string): ProductImages {
   // Aukro CDN pattern: /images/<dir>/<size>/<file>
   // size is one of: thumbnail | 73x73 | 400x300 | 730x548 | (omitted = original)
   // Swap the size segment to derive the variants we need.
@@ -89,7 +89,7 @@ function imagesFromTitleUrl(url: string): ProductImages {
   return { thumb: swap('73x73'), card: swap('400x300'), full: swap('730x548') };
 }
 
-function quantityTypeToUnit(qt: string | undefined): ProductUnit {
+export function quantityTypeToUnit(qt: string | undefined): ProductUnit {
   // Map Aukro's quantityType 1:1. The API is the source of truth — no name
   // regex. Extend the switch if Aukro ever adds weight/volume variants.
   switch (qt) {
