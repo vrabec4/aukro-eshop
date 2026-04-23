@@ -1,19 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { CartLine } from '../../../core/services/cart-store.service';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
-import { PricePipe } from '../../pipes/price.pipe';
-import { TranslatePipe } from '../../pipes/translate.pipe';
-import { UnitPipe } from '../../pipes/unit.pipe';
 
 @Component({
   selector: 'app-cart-item-row',
   standalone: true,
-  imports: [PricePipe, TranslatePipe, UnitPipe],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cart-item-row.component.html',
 })
 export class CartItemRowComponent {
-  private readonly settings = inject(SettingsStoreService);
+  protected readonly settings = inject(SettingsStoreService);
 
   readonly line = input.required<CartLine>();
   readonly remove = output<void>();

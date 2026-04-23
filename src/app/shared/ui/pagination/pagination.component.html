@@ -9,7 +9,7 @@
     [disabled]="!hasPrev()"
     (click)="onPage(page() - 1)"
   >
-    ← {{ 'previous' | translate }}
+    ← {{ settings.t('previous') }}
   </button>
 
   <!-- Mobile: compact "X / Y" counter. Avoids 7 buttons wrapping to 3 rows. -->
@@ -54,6 +54,6 @@
     [disabled]="!hasNext()"
     (click)="onPage(page() + 1)"
   >
-    {{ 'next' | translate }} →
+    {{ settings.t('next') }} →
   </button>
 </nav>

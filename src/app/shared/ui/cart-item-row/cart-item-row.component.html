@@ -21,10 +21,10 @@
       </p>
       <div class="mt-2 flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500">
         <span class="rounded-full bg-slate-100 px-2.5 py-1">
-          {{ line().item.quantity }} {{ line().product.unit | unit }}
+          {{ line().item.quantity }} {{ settings.unit(line().product.unit) }}
         </span>
         <span class="rounded-full bg-slate-100 px-2.5 py-1">
-          {{ perUnitCzk() | price }} / {{ line().product.unit | unit }}
+          {{ settings.price(perUnitCzk()) }} / {{ settings.unit(line().product.unit) }}
         </span>
       </div>
     </div>
@@ -32,13 +32,13 @@
 
   <div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-1 md:contents md:border-t-0 md:pt-0">
     <p class="text-lg font-semibold text-slate-900 md:text-right">
-      {{ line().lineTotalCzk | price }}
+      {{ settings.price(line().lineTotalCzk) }}
     </p>
 
     <button
       type="button"
       class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 md:mx-auto"
-      [attr.aria-label]="'remove' | translate"
+      [attr.aria-label]="settings.t('remove')"
       (click)="remove.emit()"
     >
       <svg

@@ -26,11 +26,11 @@
     </div>
 
     <p class="text-sm text-slate-500">
-      {{ pricePerUnitCzk() | price }} / {{ product().unit | unit }}
+      {{ settings.price(pricePerUnitCzk()) }} / {{ settings.unit(product().unit) }}
     </p>
 
     <p class="text-xl font-medium text-slate-800">
-      {{ lineTotalCzk() | price }}
+      {{ settings.price(lineTotalCzk()) }}
     </p>
 
     <div class="mt-auto flex flex-col gap-4">
@@ -42,7 +42,7 @@
           class="flex h-8 w-8 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
           [disabled]="selectedAmount() <= 0"
           (click)="decrement()"
-          [attr.aria-label]="'decreaseAmount' | translate"
+          [attr.aria-label]="settings.t('decreaseAmount')"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,16 +65,16 @@
           [ngModel]="selectedAmount()"
           (ngModelChange)="onAmountChange($event)"
           class="w-12 bg-transparent text-center tabular-nums outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          [attr.aria-label]="'amount' | translate"
+          [attr.aria-label]="settings.t('amount')"
         />
 
-        <span class="pr-2 text-slate-500">{{ product().unit | unit }}</span>
+        <span class="pr-2 text-slate-500">{{ settings.unit(product().unit) }}</span>
 
         <button
           type="button"
           class="flex h-8 w-8 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
           (click)="increment()"
-          [attr.aria-label]="'increaseAmount' | translate"
+          [attr.aria-label]="settings.t('increaseAmount')"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@
         [disabled]="selectedAmount() <= 0"
         (click)="addToCart.emit(selectedAmount())"
       >
-        {{ 'addToBasket' | translate }}
+        {{ settings.t('addToBasket') }}
       </button>
     </div>
   </div>

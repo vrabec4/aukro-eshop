@@ -4,7 +4,7 @@ import { Product } from '../../../../core/models/product.model';
 import { CartFeedbackService } from '../../../../core/services/cart-feedback.service';
 import { CartStoreService } from '../../../../core/services/cart-store.service';
 import { CatalogService } from '../../../../core/services/catalog.service';
-import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { SettingsStoreService } from '../../../../core/services/settings-store.service';
 import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
 import { ProductCardSkeletonComponent } from '../../../../shared/ui/product-card-skeleton/product-card-skeleton.component';
 import { ProductCardComponent } from '../../../../shared/ui/product-card/product-card.component';
@@ -13,7 +13,6 @@ import { ProductCardComponent } from '../../../../shared/ui/product-card/product
   selector: 'app-shop-page',
   standalone: true,
   imports: [
-    TranslatePipe,
     PaginationComponent,
     ProductCardComponent,
     ProductCardSkeletonComponent,
@@ -25,6 +24,7 @@ export class ShopPageComponent {
   private readonly catalog = inject(CatalogService);
   private readonly cart = inject(CartStoreService);
   private readonly cartFeedback = inject(CartFeedbackService);
+  protected readonly settings = inject(SettingsStoreService);
 
   protected readonly products = this.catalog.products;
   protected readonly loading = this.catalog.loading;

@@ -3,25 +3,16 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { Product } from '../../../core/models/product.model';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
-import { PricePipe } from '../../pipes/price.pipe';
-import { TranslatePipe } from '../../pipes/translate.pipe';
-import { UnitPipe } from '../../pipes/unit.pipe';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [
-    FormsModule,
-    MatButtonModule,
-    PricePipe,
-    TranslatePipe,
-    UnitPipe,
-  ],
+  imports: [FormsModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './product-card.component.html',
 })
 export class ProductCardComponent {
-  private readonly settings = inject(SettingsStoreService);
+  protected readonly settings = inject(SettingsStoreService);
 
   readonly product = input.required<Product>();
   readonly addToCart = output<number>();

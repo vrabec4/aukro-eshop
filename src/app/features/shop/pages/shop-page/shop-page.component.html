@@ -1,14 +1,14 @@
 <section class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
   <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
     <h1 class="text-3xl font-medium text-slate-800">
-      {{ 'shopTitle' | translate }}
+      {{ settings.t('shopTitle') }}
       <span class="ml-2 text-sm text-emerald-600">
-        {{ totalElements() }} {{ 'itemsSuffix' | translate }}
+        {{ totalElements() }} {{ settings.t('itemsSuffix') }}
       </span>
     </h1>
 
     <label class="flex items-center gap-2 text-sm text-slate-600">
-      <span>{{ 'perPage' | translate }}</span>
+      <span>{{ settings.t('perPage') }}</span>
       <span class="relative inline-block">
         <select
           class="cursor-pointer appearance-none rounded-full border border-slate-200 bg-white py-1.5 pl-4 pr-9 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
@@ -42,24 +42,24 @@
       class="flex flex-col items-center gap-4 rounded-2xl border border-red-200 bg-red-50 px-6 py-10 text-center"
     >
       <p class="text-base font-medium text-red-700">
-        {{ 'error' | translate }}
+        {{ settings.t('error') }}
       </p>
       <button
         type="button"
         class="inline-flex items-center gap-2 rounded-full border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
         (click)="onRetry()"
       >
-        {{ 'retry' | translate }}
+        {{ settings.t('retry') }}
       </button>
     </div>
   } @else if (loading()) {
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2" [attr.aria-label]="'loading' | translate">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2" [attr.aria-label]="settings.t('loading')">
       @for (_ of skeletonSlots(); track $index) {
         <app-product-card-skeleton />
       }
     </div>
   } @else if (products().length === 0) {
-    <p class="text-gray-500">{{ 'emptyShop' | translate }}</p>
+    <p class="text-gray-500">{{ settings.t('emptyShop') }}</p>
   } @else {
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
       @for (product of products(); track product.id) {

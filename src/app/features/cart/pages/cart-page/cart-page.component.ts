@@ -1,19 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartStoreService } from '../../../../core/services/cart-store.service';
-import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { SettingsStoreService } from '../../../../core/services/settings-store.service';
 import { CartItemRowComponent } from '../../../../shared/ui/cart-item-row/cart-item-row.component';
 import { CartSummaryComponent } from '../../../../shared/ui/cart-summary/cart-summary.component';
 
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [RouterLink, TranslatePipe, CartItemRowComponent, CartSummaryComponent],
+  imports: [RouterLink, CartItemRowComponent, CartSummaryComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cart-page.component.html',
 })
 export class CartPageComponent {
   private readonly cart = inject(CartStoreService);
+  protected readonly settings = inject(SettingsStoreService);
 
   protected readonly count = this.cart.count;
   protected readonly lines = this.cart.lines;
