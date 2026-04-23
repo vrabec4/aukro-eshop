@@ -1,0 +1,23 @@
+// Design tokens: one source of truth for component colors.
+// Values are copied from Tailwind's slate/red palettes so migration
+// from `!bg-slate-900`-style classes is pixel-identical.
+
+:root {
+  // Action (primary CTAs, active pagination, submit buttons)
+  --color-action: #0f172a;          // slate-900
+  --color-action-hover: #1e293b;    // slate-800
+  --color-on-action: #ffffff;
+
+  // Ghost (secondary buttons, inactive pagination, nav)
+  --color-surface: #ffffff;
+  --color-surface-hover: #f8fafc;   // slate-50
+  --color-border: #e2e8f0;          // slate-200
+  --color-text-muted: #334155;      // slate-700
+
+  // Danger (destructive icon buttons)
+  --color-danger-icon: #64748b;     // slate-500 (resting)
+  --color-danger: #ef4444;          // red-500
+  --color-danger-bg: #fef2f2;       // red-50
+  --color-danger-border: #fecaca;   // red-200
+  --color-danger-ring: #fca5a5;     // red-300
+}
