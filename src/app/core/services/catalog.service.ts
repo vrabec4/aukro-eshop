@@ -33,20 +33,12 @@ export class CatalogService {
   // the session is served instantly from memory instead of re-fetching.
   private readonly cache = new Map<string, CachedPage>();
 
-  // Cumulative map of every product fetched this session. Lets the cart
-  // resolve a product by id even after the user has paged past it.
-  private readonly fetchedProducts = new Map<string, Product>();
-
   constructor() {
     effect(() => {
       const page = this._page();
       const size = this._pageSize();
       this.load(page, size);
     });
-  }
-
-  productById(id: string): Product | undefined {
-    return this.fetchedProducts.get(id);
   }
 
   setPage(page: number): void {
@@ -79,9 +71,6 @@ export class CatalogService {
     this.offersApi.fetchPage(page, size).subscribe((result) => {
       if (myId !== this.requestId) return;
       this.cache.set(key, result);
-      for (const product of result.products) {
-        this.fetchedProducts.set(product.id, product);
-      }
       this.apply(result);
     });
   }

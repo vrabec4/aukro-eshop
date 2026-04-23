@@ -49,7 +49,7 @@ export class ShopPageComponent {
   );
 
   protected onAddToCart(product: Product, amount: number): void {
-    this.cart.add(product.id, amount);
+    this.cart.add(product, amount);
     const lang = this.settings.language();
     this.snackBar.open(UI_LABELS[lang].addedToBasket, UI_LABELS[lang].dismiss, {
       duration: 2500,

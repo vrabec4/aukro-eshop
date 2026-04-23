@@ -1,56 +1,40 @@
 import { TestBed } from '@angular/core/testing';
 import { Product } from '../models/product.model';
-import { CatalogService } from './catalog.service';
 import { CartStoreService } from './cart-store.service';
 
 describe('CartStoreService', () => {
   let service: CartStoreService;
 
-  const products = new Map<string, Product>([
-    [
-      'apple',
-      {
-        id: 'apple',
-        name: { cs: 'Jablko', sk: 'Jablko', en: 'Apple' },
-        images: { thumb: '/apple-s.svg', card: '/apple-m.svg', full: '/apple-l.svg' },
-        unit: 'kg',
-        quantity: 1,
-        basePriceCzk: 49,
-      },
-    ],
-    [
-      'banana',
-      {
-        id: 'banana',
-        name: { cs: 'Banan', sk: 'Banán', en: 'Banana' },
-        images: { thumb: '/banana-s.svg', card: '/banana-m.svg', full: '/banana-l.svg' },
-        unit: 'kg',
-        quantity: 1,
-        basePriceCzk: 35,
-      },
-    ],
-  ]);
+  const apple: Product = {
+    id: 'apple',
+    name: { cs: 'Jablko', sk: 'Jablko', en: 'Apple' },
+    images: { thumb: '/apple-s.svg', card: '/apple-m.svg', full: '/apple-l.svg' },
+    unit: 'kg',
+    quantity: 1,
+    basePriceCzk: 49,
+  };
+
+  const banana: Product = {
+    id: 'banana',
+    name: { cs: 'Banan', sk: 'Banán', en: 'Banana' },
+    images: { thumb: '/banana-s.svg', card: '/banana-m.svg', full: '/banana-l.svg' },
+    unit: 'kg',
+    quantity: 1,
+    basePriceCzk: 35,
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        CartStoreService,
-        {
-          provide: CatalogService,
-          useValue: {
-            productById: (id: string) => products.get(id),
-          },
-        },
-      ],
+      providers: [CartStoreService],
     });
 
     service = TestBed.inject(CartStoreService);
   });
 
   it('aggregates amounts for the same product and computes subtotal', () => {
-    service.add('apple', 1);
-    service.add('apple', 1);
-    service.add('banana', 1);
+    service.add(apple, 1);
+    service.add(apple, 1);
+    service.add(banana, 1);
 
     expect(service.count()).toBe(2); // two distinct products
     expect(service.lines()).toHaveLength(2);
@@ -58,7 +42,7 @@ describe('CartStoreService', () => {
   });
 
   it('applies shipping and tax on top of subtotal', () => {
-    service.add('apple', 1); // 49 CZK
+    service.add(apple, 1); // 49 CZK
     expect(service.subtotalCzk()).toBe(49);
     expect(service.shippingCzk()).toBe(100);
     expect(service.taxCzk()).toBeCloseTo(49 * 0.05, 5);
@@ -66,7 +50,7 @@ describe('CartStoreService', () => {
   });
 
   it('clears the cart and zeroes shipping + tax when empty', () => {
-    service.add('apple', 2);
+    service.add(apple, 2);
     service.remove('apple');
 
     expect(service.count()).toBe(0);
@@ -75,5 +59,21 @@ describe('CartStoreService', () => {
     expect(service.shippingCzk()).toBe(0);
     expect(service.taxCzk()).toBe(0);
     expect(service.totalCzk()).toBe(0);
+  });
+
+  it('ignores add() with zero or negative amount', () => {
+    service.add(apple, 0);
+    service.add(apple, -5);
+    expect(service.count()).toBe(0);
+  });
+
+  it('renders cart lines from stored snapshot without catalog access', () => {
+    // Snapshot-in-CartItem means the cart survives the catalog forgetting
+    // about the product (e.g. paged past it, or a fresh page load).
+    service.add(apple, 3);
+    const [line] = service.lines();
+    expect(line.product.name.en).toBe('Apple');
+    expect(line.product.images.thumb).toBe('/apple-s.svg');
+    expect(line.lineTotalCzk).toBe(49 * 3);
   });
 });

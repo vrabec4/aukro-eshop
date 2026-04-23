@@ -1,8 +1,7 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { SHIPPING_CZK, TAX_RATE } from '../constants/cart-fees';
 import { CartItem } from '../models/cart-item.model';
 import { Product } from '../models/product.model';
-import { CatalogService } from './catalog.service';
 
 export interface CartLine {
   item: CartItem;
@@ -12,8 +11,6 @@ export interface CartLine {
 
 @Injectable({ providedIn: 'root' })
 export class CartStoreService {
-  private readonly catalog = inject(CatalogService);
-
   private readonly _items = signal<CartItem[]>([]);
 
   readonly items = this._items.asReadonly();
@@ -22,17 +19,16 @@ export class CartStoreService {
 
   readonly lines = computed<CartLine[]>(() =>
     this._items()
+      .filter((item) => item.snapshot.quantity > 0)
       .map((item) => {
-        const product = this.catalog.productById(item.productId);
-        if (!product || product.quantity <= 0) return null;
+        const product: Product = { id: item.productId, ...item.snapshot };
         const pricePerUnit = product.basePriceCzk / product.quantity;
         return {
           item,
           product,
           lineTotalCzk: pricePerUnit * item.quantity,
         };
-      })
-      .filter((line): line is CartLine => line !== null),
+      }),
   );
 
   readonly subtotalCzk = computed(() =>
@@ -49,8 +45,9 @@ export class CartStoreService {
     () => this.subtotalCzk() + this.shippingCzk() + this.taxCzk(),
   );
 
-  add(productId: string, amount: number): void {
+  add(product: Product, amount: number): void {
     if (amount <= 0) return;
+    const { id: productId, ...snapshot } = product;
     const items = this._items();
     const idx = items.findIndex((it) => it.productId === productId);
     if (idx >= 0) {
@@ -58,10 +55,11 @@ export class CartStoreService {
       updated[idx] = {
         ...updated[idx],
         quantity: updated[idx].quantity + amount,
+        snapshot, // refresh snapshot to the latest known product data
       };
       this._items.set(updated);
     } else {
-      this._items.set([...items, { productId, quantity: amount }]);
+      this._items.set([...items, { productId, quantity: amount, snapshot }]);
     }
   }
 
