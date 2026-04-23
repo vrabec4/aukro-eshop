@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { PAGE_SIZE_OPTIONS } from '../../../../core/constants/offer-ids';
@@ -8,6 +7,7 @@ import { Product } from '../../../../core/models/product.model';
 import { CartStoreService } from '../../../../core/services/cart-store.service';
 import { CatalogService } from '../../../../core/services/catalog.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
 import { ProductCardComponent } from '../../../../shared/ui/product-card/product-card.component';
 
 @Component({
@@ -15,10 +15,10 @@ import { ProductCardComponent } from '../../../../shared/ui/product-card/product
   standalone: true,
   imports: [
     FormsModule,
-    MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
     TranslatePipe,
+    PaginationComponent,
     ProductCardComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,15 +35,6 @@ export class ShopPageComponent {
   protected readonly totalPages = this.catalog.totalPages;
   protected readonly totalElements = this.catalog.totalElements;
   protected readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
-
-  protected readonly pageNumbers = computed(() => {
-    const total = this.totalPages();
-    const current = this.page();
-    if (total <= 7) return Array.from({ length: total }, (_, i) => i);
-    // Sliding window of 5 around current, always keeping first/last reachable via prev/next.
-    const start = Math.max(0, Math.min(current - 2, total - 5));
-    return Array.from({ length: 5 }, (_, i) => start + i);
-  });
 
   protected onAddToCart(product: Product, amount: number): void {
     this.cart.add(product.id, amount);

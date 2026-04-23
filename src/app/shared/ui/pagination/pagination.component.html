@@ -1,0 +1,46 @@
+<nav
+  aria-label="Pagination"
+  class="flex flex-wrap items-center justify-center gap-2"
+>
+  <button
+    mat-stroked-button
+    type="button"
+    class="btn-ghost btn-ghost--pill inline-flex h-10 items-center px-4 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-40"
+    [disabled]="!hasPrev()"
+    (click)="onPage(page() - 1)"
+  >
+    ← {{ 'previous' | translate }}
+  </button>
+
+  @for (n of pageNumbers(); track n) {
+    @if (n === page()) {
+      <button
+        mat-flat-button
+        type="button"
+        class="btn-action btn-action--pill h-10 min-w-10 px-3 shadow-md transition"
+        (click)="onPage(n)"
+      >
+        {{ n + 1 }}
+      </button>
+    } @else {
+      <button
+        mat-stroked-button
+        type="button"
+        class="btn-ghost btn-ghost--pill h-10 min-w-10 px-3 transition"
+        (click)="onPage(n)"
+      >
+        {{ n + 1 }}
+      </button>
+    }
+  }
+
+  <button
+    mat-stroked-button
+    type="button"
+    class="btn-ghost btn-ghost--pill inline-flex h-10 items-center px-4 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-40"
+    [disabled]="!hasNext()"
+    (click)="onPage(page() + 1)"
+  >
+    {{ 'next' | translate }} →
+  </button>
+</nav>
