@@ -1,10 +1,4 @@
-import {
-  computed,
-  effect,
-  inject,
-  Injectable,
-  signal,
-} from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { DEFAULT_PAGE_SIZE } from '../constants/offer-ids';
 import { Product } from '../models/product.model';
 import { OffersApiService } from './offers-api.service';
@@ -36,7 +30,6 @@ export class CatalogService {
   });
 
   constructor() {
-    // Trigger a fresh fetch whenever page or pageSize changes.
     effect(() => {
       const page = this._page();
       const size = this._pageSize();
@@ -49,7 +42,10 @@ export class CatalogService {
   }
 
   setPage(page: number): void {
-    const clamped = Math.max(0, Math.min(page, Math.max(0, this._totalPages() - 1)));
+    const clamped = Math.max(
+      0,
+      Math.min(page, Math.max(0, this._totalPages() - 1)),
+    );
     this._page.set(clamped);
   }
 
@@ -61,7 +57,6 @@ export class CatalogService {
 
   private load(page: number, size: number): void {
     this._loading.set(true);
-    // Guard against out-of-order responses: only the latest request wins.
     const myId = ++this.requestId;
     this.offersApi.fetchPage(page, size).subscribe((result) => {
       if (myId !== this.requestId) return;

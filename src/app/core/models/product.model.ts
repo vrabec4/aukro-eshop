@@ -1,6 +1,6 @@
 import { Language } from './language.model';
 
-export type ProductUnit = 'kg' | 'pcs' | 'bundle';
+export type ProductUnit = 'kg' | 'pcs' | 'bundle' | 'pack';
 
 export interface ProductImages {
   thumb: string; // ~73x73, for cart rows / list thumbnails

@@ -113,9 +113,9 @@ export const UI_LABELS: Record<Language, Record<UiKey, string>> = {
 export const PRODUCT_NAMES: Record<string, Record<Language, string>> = {};
 
 export const UNIT_LABELS: Record<Language, Record<ProductUnit, string>> = {
-  cs: { kg: 'kg', pcs: 'ks', bundle: 'svazek' },
-  sk: { kg: 'kg', pcs: 'ks', bundle: 'zväzok' },
-  en: { kg: 'kg', pcs: 'pcs', bundle: 'bundle' },
+  cs: { kg: 'kg', pcs: 'ks', bundle: 'svazek', pack: 'balení' },
+  sk: { kg: 'kg', pcs: 'ks', bundle: 'zväzok', pack: 'balenie' },
+  en: { kg: 'kg', pcs: 'pcs', bundle: 'bundle', pack: 'pack' },
 };
 
 export const LANGUAGE_LOCALES: Record<Language, string> = {
