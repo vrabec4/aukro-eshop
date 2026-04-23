@@ -1,7 +1,6 @@
 // Button variant classes. Apply together with a Material button directive:
 //   <button mat-flat-button class="btn-action">Add to basket</button>
 //   <button mat-stroked-button class="btn-ghost">Previous</button>
-//   <button mat-icon-button class="btn-danger">...</button>
 //
 // These set MDC custom properties that Material itself reads, so no
 // !important is needed — the tokens propagate through Material's internal
@@ -83,25 +82,3 @@
   }
 }
 
-// Compound selector lifts specificity above Material's inline
-// .mat-mdc-icon-button rule, which otherwise forces transparent bg,
-// no border, and a state-layer-driven size.
-.btn-danger.mat-mdc-icon-button {
-  --mdc-icon-button-icon-color: var(--color-danger-icon);
-  width: 2.75rem;   // h-11 / w-11 — Tailwind utility can't beat Material here
-  height: 2.75rem;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  transition: color 120ms, background-color 120ms, border-color 120ms;
-
-  &:hover:not(:disabled) {
-    --mdc-icon-button-icon-color: var(--color-danger);
-    border-color: var(--color-danger-border);
-    background-color: var(--color-danger-bg);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-danger-ring);
-    outline-offset: 2px;
-  }
-}

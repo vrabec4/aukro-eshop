@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { CartLine } from '../../../core/services/cart-store.service';
 import { SettingsStoreService } from '../../../core/services/settings-store.service';
 import { PricePipe } from '../../pipes/price.pipe';
@@ -9,7 +8,7 @@ import { UnitPipe } from '../../pipes/unit.pipe';
 @Component({
   selector: 'app-cart-item-row',
   standalone: true,
-  imports: [MatButtonModule, PricePipe, TranslatePipe, UnitPipe],
+  imports: [PricePipe, TranslatePipe, UnitPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cart-item-row.component.html',
 })

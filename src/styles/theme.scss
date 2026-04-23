@@ -3,7 +3,7 @@
 // The prebuilt @angular/material/prebuilt-themes/azure-blue.css loads as
 // the base theme (see angular.json > styles) and defines a full set of
 // --mat-sys-* tokens for Material components. Most of its colors are
-// already masked by our .btn-action / .btn-ghost / .btn-danger variants,
+// already masked by our .btn-action / .btn-ghost variants,
 // but a few places still fall back to the system palette — notably the
 // <mat-select> dropdown's selected-option background, which would
 // otherwise render in azure primary-container.
