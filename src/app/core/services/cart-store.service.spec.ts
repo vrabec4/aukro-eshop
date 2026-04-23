@@ -24,6 +24,9 @@ describe('CartStoreService', () => {
   };
 
   beforeEach(() => {
+    // Reset persisted state between tests so one test's cart can't bleed
+    // into the next.
+    localStorage.clear();
     TestBed.configureTestingModule({
       providers: [CartStoreService],
     });
@@ -75,5 +78,42 @@ describe('CartStoreService', () => {
     expect(line.product.name.en).toBe('Apple');
     expect(line.product.images.thumb).toBe('/apple-s.svg');
     expect(line.lineTotalCzk).toBe(49 * 3);
+  });
+
+  it('starts empty when localStorage has no prior cart', () => {
+    // beforeEach clears localStorage, so this mirrors a first-ever visit.
+    expect(service.count()).toBe(0);
+    expect(service.lines()).toHaveLength(0);
+  });
+
+  it('persists items across service instances (simulates a page refresh)', () => {
+    service.add(apple, 2);
+    service.add(banana, 1);
+    // Drain the persistence effect so localStorage actually gets written
+    // before we tear the testbed down.
+    TestBed.flushEffects();
+
+    // Drop the current TestBed/service and spin up a fresh one — localStorage
+    // is the only thing that survives. This is exactly what a reload does.
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({ providers: [CartStoreService] });
+    const reloaded = TestBed.inject(CartStoreService);
+
+    expect(reloaded.count()).toBe(2);
+    expect(reloaded.subtotalCzk()).toBe(2 * 49 + 35);
+    expect(reloaded.lines()[0].product.name.en).toBe('Apple');
+  });
+
+  it('falls back to an empty cart when localStorage contains invalid JSON', () => {
+    localStorage.setItem('aukro-eshop:cart:v1', '{not valid json');
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({ providers: [CartStoreService] });
+    const recovered = TestBed.inject(CartStoreService);
+    TestBed.flushEffects();
+
+    expect(recovered.count()).toBe(0);
+    // Self-heal: the persistence effect overwrites the corrupt value with [].
+    expect(localStorage.getItem('aukro-eshop:cart:v1')).toBe('[]');
   });
 });
